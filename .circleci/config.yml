@@ -31,8 +31,9 @@ workflows:
         - aws-ecr/build-and-push-image:
             requires:
               - gradle-build
-            assume-web-identity: false 
+            assume-web-identity: true 
             attach-workspace: false 
             create-repo: true 
             repo: f1discordbot 
             push-image: true 
+            
