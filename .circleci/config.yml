@@ -23,7 +23,7 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle build
-      - store_architfacts:
+      - store_arcitfacts:
         path: /build/libs
 workflows:
     build-deploy:
