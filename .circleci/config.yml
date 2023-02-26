@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  gradle: circleci/gradle@3.0.0
 jobs:
   gradle-build:
     docker:
@@ -22,15 +24,8 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle fatJar
-  ecr:
-  ecs-deploy:
 workflows:
-  build-deploy:
-    jobs:
-        - gradle-build
-        - ecr:
-            requires:
-              - gradle-build
-        - ecs-deploy:
-            requires:
-              - ecr
+    example-workflow:
+      jobs:
+        - gradle/run:
+            command: fatJar 
