@@ -32,8 +32,10 @@ workflows:
             requires:
               - gradle-build
             assume-web-identity: true 
+            role-arn: arn:aws:iam::842735713588:role/aws-service-role/replication.ecr.amazonaws.com/AWSServiceRoleForECRReplication
             attach-workspace: false 
             create-repo: true 
             repo: f1discordbot 
             push-image: true 
+            no-output-timeout: 5m
             
