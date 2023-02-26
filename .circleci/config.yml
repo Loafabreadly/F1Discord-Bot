@@ -32,10 +32,20 @@ workflows:
             requires:
               - gradle-build
             assume-web-identity: true 
-            role-arn: arn:aws:iam::842735713588:role/aws-service-role/replication.ecr.amazonaws.com/AWSServiceRoleForECRReplication
             attach-workspace: false 
+            checkout: true 
             create-repo: true 
-            repo: f1discordbot 
+            docker-login: false 
+            no-output-timeout: '3' 
+            profile-name: myProfileName 
+            new-profile-name: myProfileName 
+            public-registry: false 
             push-image: true 
-            no-output-timeout: 5m
+            remote-docker-layer-caching: false 
+            repo: f1discordbot 
+            repo-scan-on-push: true 
+            role-arn: arn:aws:iam::842735713588:role/aws-service-role/replication.ecr.amazonaws.com/AWSServiceRoleForECRReplication 
+            set-repo-policy: false 
+            setup-remote-docker: false 
+            skip-when-tags-exist: false
             
