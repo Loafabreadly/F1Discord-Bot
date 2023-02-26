@@ -22,13 +22,15 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle fatJar
+  ecr:
+  ecs:
 workflows:
   build-deploy:
     jobs:
         - gradle-build
         - ecr:
-          requires:
-            - gradle-build
+            requires:
+              - gradle-build
         - ecs:
-          requires:
-            - ecr
+            requires:
+              - ecr
