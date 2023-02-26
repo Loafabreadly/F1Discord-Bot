@@ -23,7 +23,7 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle fatJar
   ecr:
-  ecs:
+  ecs-deploy:
 workflows:
   build-deploy:
     jobs:
@@ -31,6 +31,6 @@ workflows:
         - ecr:
             requires:
               - gradle-build
-        - ecs:
+        - ecs-deploy:
             requires:
               - ecr
