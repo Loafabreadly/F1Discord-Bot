@@ -25,7 +25,6 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle fatJar
 workflows:
-    example-workflow:
+    build-deploy:
       jobs:
-        - gradle/run:
-            command: fatJar 
+        - gradle-build
