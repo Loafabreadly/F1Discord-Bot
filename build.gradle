@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.github.loafabreadly'
-version '1.0-SNAPSHOT'
+version '0.1'
 
 repositories {
     mavenCentral()
@@ -34,4 +34,8 @@ task fatJar(type: Jar) {
         exclude 'META-INF/*.DSA'
     }
     with jar
+}
+
+artifacts {
+    archives fatJar
 }
