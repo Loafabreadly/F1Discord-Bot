@@ -2,7 +2,7 @@ version: 2.1
 workflows:
     build-deploy:
         jobs:
-            - gradle-fatJar:
+            gradle-fatJar:
                 ## Only run this build when there are commits to the master branch
                 filters:
                     branches:
