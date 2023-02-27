@@ -1,7 +1,7 @@
 FROM gradle:latest AS build
 WORKDIR /usr/app
 COPY . .
-RUN gradle build
+RUN gradle build --no-daemon
 
 FROM amazoncorretto:11-alpine-full
 ENV JAR_NAME=F1Discord-Bot-all.jar
