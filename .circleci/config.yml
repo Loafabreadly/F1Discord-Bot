@@ -36,14 +36,12 @@ workflows:
               - gradle-build
             dockerfile: Dockerfile
             assume-web-identity: true
-            attach-workspace: true
             checkout: true
             create-repo: true
             no-output-timeout: '3' 
             push-image: true 
-            remote-docker-layer-caching: false
             repo: f1discordbot
             repo-scan-on-push: true
-            role-arn: arn:aws:iam::842735713588:role/CirclePipelineIAM
-            role-session-name: CirclePipelineIAM
+            role-arn: arn:aws:iam::842735713588:role/CIRole
+            role-session-name: CIRole
             context: aws
