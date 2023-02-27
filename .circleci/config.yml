@@ -23,7 +23,28 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle build --no-daemon
-      - aws-ecr/build-and-push-image:
+      - persist_to_workspace:
+          root: build/libs
+          paths:
+            - "F1Discord-Bot-all.jar"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "Dockerfile"
+workflows:
+    build-deploy:
+      jobs:
+        - gradle-build:
+            filters:
+              branches:
+                only:
+                  - master
+        - aws-ecr/build-and-push-image:
+            pre-steps:
+              - attach_workspace:
+                  at: build/libs
+              - attach_workspace:
+                  at: .
             checkout: false
             dockerfile: Dockerfile
             assume-web-identity: true
@@ -37,12 +58,4 @@ jobs:
             repo-scan-on-push: true
             role-arn: arn:aws:iam::842735713588:role/CIRole
             role-session-name: CIRole
-workflows:
-    build-deploy:
-      jobs:
-        - gradle-build:
-            filters:
-              branches:
-                only:
-                  - master
-            context: aws                  
+            context: aws                                          
