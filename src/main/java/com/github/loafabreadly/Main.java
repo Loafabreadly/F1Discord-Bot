@@ -7,6 +7,9 @@ import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.event.Event;
 import org.javacord.api.interaction.SlashCommand;
+import org.javacord.api.interaction.SlashCommandInteraction;
+import org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder;
+import org.javacord.api.interaction.callback.InteractionMessageBuilder;
 
 public class Main {
 
@@ -40,9 +43,21 @@ public class Main {
                 }
             });
 
+            //setting up our slash command
             SlashCommand pingCmd = SlashCommand.with("ping", "Returns Pong")
                     .createGlobal(api)
                     .join();
+
+            //setting up the response to our slash command
+            api.addSlashCommandCreateListener(event -> {
+                SlashCommandInteraction inter = event.getSlashCommandInteraction();
+                if (inter.getFullCommandName().equals("ping")) {
+                    event.getInteraction()
+                            .createImmediateResponder()
+                            .setContent("Pong!")
+                            .respond();
+                }
+            });
 
             logger.info(api.getCustomEmojis());
         }
