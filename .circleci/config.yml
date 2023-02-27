@@ -45,4 +45,5 @@ workflows:
             repo: f1discordbot
             repo-scan-on-push: true
             role-arn: arn:aws:iam::842735713588:role/CirclePipelineIAM
+            role-session-name: CirclePipelineIAM
             context: aws
