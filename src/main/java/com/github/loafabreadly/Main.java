@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
+import org.javacord.api.interaction.SlashCommand;
 
 public class Main {
 
@@ -33,10 +34,14 @@ public class Main {
 
             //Main message event listener
             api.addMessageCreateListener(event -> {
-                if (event.getMessageContent().equalsIgnoreCase("!ping")) {
-                    event.getChannel().sendMessage("Pong!");
+                if (event.getMessageContent().equalsIgnoreCase("!nico")) {
+                    event.getChannel().sendMessage(":nicooo:");
                 }
             });
+
+            SlashCommand pingCmd = SlashCommand.with("ping", "Returns Pong")
+                    .createGlobal(api)
+                    .join();
         }
         catch (Exception e) {
             logger.error(e.getMessage());
