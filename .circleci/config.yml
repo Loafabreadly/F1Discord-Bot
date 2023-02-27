@@ -24,11 +24,12 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle build --no-daemon
       - aws-ecr/build-and-push-image:
+            checkout: false
             dockerfile: Dockerfile
             assume-web-identity: true
             region: '${AWS_DEFAULT_REGION}'
             registry-id: AWS_ECR_REGISTRY_ID
-            extra-build-args: "--compress DISCORD_TOKEN=$DISCORD_TOKEN"
+            extra-build-args: "--compress --build-arg DISCORD_TOKEN=$DISCORD_TOKEN --build-arg VER=$CIRCLE_SHA1"
             create-repo: true
             no-output-timeout: '3m' 
             push-image: true 
