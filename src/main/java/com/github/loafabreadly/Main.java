@@ -67,8 +67,8 @@ public class Main {
                                     Arrays.asList(
                                             SlashCommandOption.createWithOptions(SlashCommandOptionType.SUB_COMMAND, "race", "Outputs race specific data",
                                                     Arrays.asList(
-                                                            SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "season", "Enter the year of the F1 season"),
-                                                            SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "race", "The number or name of the race")
+                                                            SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "season", "Enter the year of the F1 season", true),
+                                                            SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "race", "The number or name of the race", true)
                                                     )))))));
             //register our command
             api.bulkOverwriteGlobalApplicationCommands(builders).join();
@@ -77,20 +77,21 @@ public class Main {
         //setting up the response to our Ping/Pong slash command
             api.addSlashCommandCreateListener(event -> {
                 SlashCommandInteraction inter = event.getSlashCommandInteraction();
-
-                // Did the user pass arguments or is this a single word trigger command?
-                if (!inter.getArguments().isEmpty()) {
                     // The first arg by index 0 is f1
-                    if (inter.getOptionByName("f1").isPresent()) {
-                        SlashCommandInteractionOption seasonYear = inter.getArguments().get(0);
-                        SlashCommandInteractionOption raceNum = inter.getArguments().get(1);
+                logger.debug("We had an interaction");
+                logger.debug("We received: " + inter.getCommandName());
+                    if (inter.getCommandName().equals("f1")) {
+                        SlashCommandInteractionOption seasonYear = inter.getArgumentByName("season").get();
+                        SlashCommandInteractionOption raceNum = inter.getArgumentByName("race").get();
                         int year = (int) Math.round(seasonYear.getDecimalValue().get());
                         int race = (int) Math.round(raceNum.getDecimalValue().get());
                         String callURL = apiURL + year + "/" + race + "/results";
                         logger.info("I was asked to attempt to call " + callURL);
+                        event.getInteraction()
+                                .createImmediateResponder()
+                                .setContent(callURL)
+                                .respond();
                     }
-
-                }
                 //Our ping cmd
                 if (inter.getFullCommandName().equals("ping")) {
                     event.getInteraction()
