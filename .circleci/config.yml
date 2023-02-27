@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@8.2.1
   aws-ecs: circleci/aws-ecs@3.2.0
+  aws-cli: circleci/aws-cli@3.1
 jobs:
   gradle-build:
     docker:
@@ -34,16 +35,19 @@ jobs:
             - "Dockerfile"
   update-ecs-task:
     docker:
-      - image: cimg/aws:2023.01
+      - image: cimg/python:3.10
     steps:
+      - aws-cli/setup:
+          role-arn: arn:aws:iam::842735713588:role/CIRole
+          role-session-name: CIRole
       - aws-ecs/update-service:
           cluster: cluster-f1discordbot 
-          container-image-name-updates: container=f1discordbot,image=842735713588.dkr.ecr.us-west-2.amazonaws.com/f1discordbot:latest  
+          container-image-name-updates: container=f1discordbot,image-and-tag=842735713588.dkr.ecr.us-west-2.amazonaws.com/f1discordbot:latest 
           deployment-controller: ECS 
-          family: f1discordbot-task  
-          force-new-deployment: true 
+          enable-circuit-breaker: false 
           service-name: f1discordbot-service 
-          verify-revision-is-deployed: false 
+          family: f1discordbot-task 
+          force-new-deployment: true 
 workflows:
     build-deploy:
       jobs:
@@ -75,5 +79,6 @@ workflows:
             role-session-name: CIRole
             context: aws
         - update-ecs-task:
-           requires:
-             - aws-ecr/build-and-push-image
+            requires:
+              - aws-ecr/build-and-push-image
+            context: aws
