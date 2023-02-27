@@ -36,12 +36,13 @@ workflows:
               - gradle-build
             dockerfile: Dockerfile
             assume-web-identity: true
-            checkout: true
+            region: '${AWS_DEFAULT_REGION}'
+            registry-id: AWS_ECR_REGISTRY_ID
+            extra-build-args: "--compress"
             create-repo: true
             no-output-timeout: '3' 
             push-image: true 
             repo: f1discordbot
-            path: .
             repo-scan-on-push: true
             role-arn: arn:aws:iam::842735713588:role/CIRole
             role-session-name: CIRole
