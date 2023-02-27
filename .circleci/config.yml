@@ -23,8 +23,6 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle build
-      - persist_to_workspace:
-          root: ~/repo/build/libs
 workflows:
     build-deploy:
       jobs:
@@ -36,19 +34,15 @@ workflows:
         - aws-ecr/build-and-push-image:
             requires:
               - gradle-build
+            dockerfile: Dockerfile
             assume-web-identity: true
-            attach-workspace: true
             checkout: true
             create-repo: true
-            docker-login: false
             no-output-timeout: '3' 
-            public-registry: false
             push-image: true 
-            remote-docker-layer-caching: false
             repo: f1discordbot
+            path: .
             repo-scan-on-push: true
-            role-arn: arn:aws:iam::842735713588:role/CirclePipelineIAM
-            set-repo-policy: false
-            setup-remote-docker: false
-            skip-when-tags-exist: false
+            role-arn: arn:aws:iam::842735713588:role/CIRole
+            role-session-name: CIRole
             context: aws
