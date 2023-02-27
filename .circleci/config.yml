@@ -23,8 +23,8 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle build
-      - store_artifacts:
-          path: ~/repo/build/libs
+      - persist_to_workspace:
+          root: ~/repo/build/libs
 workflows:
     build-deploy:
       jobs:
@@ -36,6 +36,7 @@ workflows:
         - aws-ecr/build-and-push-image:
             requires:
               - gradle-build
+            attach-workspace: true
             assume-web-identity: true 
             attach-workspace: false 
             checkout: true 
