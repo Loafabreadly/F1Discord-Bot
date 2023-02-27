@@ -1,11 +1,9 @@
-FROM gradle:latest AS build
-WORKDIR /usr/app
-COPY . .
-RUN gradle build --no-daemon
-
-FROM amazoncorretto:11-alpine-full
+FROM amazoncorretto:11
 ENV JAR_NAME=F1Discord-Bot-all.jar
-WORKDIR $APP_HOME
-COPY --from=build $APP_HOME .
+ENV HOME_DIR=/app
+ARG DISCORD_TOKEN
+ENV DISCORD_TOKEN='${DISCORD_TOKEN}'
+WORKDIR $HOME_DIR
+COPY /build/libs/$JAR_NAME $HOME_DIR
 
-ENTRYPOINT exec java -jar /build/libs/$JAR_NAME
+ENTRYPOINT exec java -jar $HOME_DIR/$JAR_NAME $DISCORD_TOKEN indev
