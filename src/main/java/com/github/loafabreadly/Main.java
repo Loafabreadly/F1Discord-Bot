@@ -21,20 +21,24 @@ public class Main {
         System.out.println("Logging in with Token: " + args[0] + "\n\n");
 
         //Login
-        DiscordApi api = new DiscordApiBuilder()
-                .setToken(args[0])
-                .addIntents(Intent.MESSAGE_CONTENT)
-                .login().join();
+        try {
+            DiscordApi api = new DiscordApiBuilder()
+                    .setToken(args[0])
+                    .addIntents(Intent.MESSAGE_CONTENT)
+                    .login().join();
 
-        logger.info("Setting bot status to match Git Commit of " + args[1]);
-        api.updateActivity("v." + args[1]);
+            logger.info("Setting bot status to match Git Commit of " + args[1]);
+            api.updateActivity("v." + args[1]);
 
-
-        //Main message event listener
-        api.addMessageCreateListener(event -> {
-            if (event.getMessageContent().equalsIgnoreCase("!ping")) {
-                event.getChannel().sendMessage("Pong!");
-            }
-        });
+            //Main message event listener
+            api.addMessageCreateListener(event -> {
+                if (event.getMessageContent().equalsIgnoreCase("!ping")) {
+                    event.getChannel().sendMessage("Pong!");
+                }
+            });            
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 }

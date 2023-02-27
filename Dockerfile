@@ -17,4 +17,4 @@ WORKDIR $HOME_DIR
 COPY /build/libs/$JAR_NAME $HOME_DIR
 
 # Launch with args
-ENTRYPOINT exec java -jar $HOME_DIR/$JAR_NAME $DISCORD_TOKEN $VER
+ENTRYPOINT ["java", "-jar", "${HOME_DIR}/${JAR_NAME}", "${DISCORD_TOKEN}", "${VER}"]
