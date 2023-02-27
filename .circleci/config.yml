@@ -22,20 +22,13 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - run: gradle build
-workflows:
-    build-deploy:
-      jobs:
-        - aws-ecr/build-and-push-image:
-            filters:
-              branches:
-                only:
-                  - master
+      - run: gradle build --no-daemon
+      - aws-ecr/build-and-push-image:
             dockerfile: Dockerfile
             assume-web-identity: true
             region: '${AWS_DEFAULT_REGION}'
             registry-id: AWS_ECR_REGISTRY_ID
-            extra-build-args: "--compress"
+            extra-build-args: "--compress DISCORD_TOKEN=$DISCORD_TOKEN"
             create-repo: true
             no-output-timeout: '3m' 
             push-image: true 
@@ -43,4 +36,12 @@ workflows:
             repo-scan-on-push: true
             role-arn: arn:aws:iam::842735713588:role/CIRole
             role-session-name: CIRole
-            context: aws
+workflows:
+    build-deploy:
+      jobs:
+        - gradle-build:
+            filters:
+              branches:
+                only:
+                  - master
+            context: aws                  
