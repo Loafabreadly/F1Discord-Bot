@@ -15,10 +15,11 @@ public class Main {
     /   args[1] = Git commit code for version
      */
     public static void main(String[] args) {
+        System.setProperty("log4j.configurationFile", "/src/main/resources/log4j2.xml");
         logger.info("Starting Bot...\n");
         logger.info("logging in with: " + args[0] + "\n");
 
-        System.out.println("Logging in with Token: " + args[0] + "\n\n");
+        // System.out.println("Logging in with Token: " + args[0] + "\n\n");
 
         //Login
         try {
@@ -35,7 +36,7 @@ public class Main {
                 if (event.getMessageContent().equalsIgnoreCase("!ping")) {
                     event.getChannel().sendMessage("Pong!");
                 }
-            });            
+            });
         }
         catch (Exception e) {
             logger.error(e.getMessage());
