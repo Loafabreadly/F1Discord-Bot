@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) {
         System.setProperty("log4j.configurationFile", "/src/main/resources/log4j2.xml");
         logger.info("Starting Bot...\n");
-        logger.info("logging in with: " + args[0] + "\n");
+        logger.trace("logging in with: " + args[0] + "\n");
 
         String apiURL = "https://ergast.com/api/f1/";
 
