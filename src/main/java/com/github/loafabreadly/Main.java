@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
+import org.javacord.api.event.Event;
 import org.javacord.api.interaction.SlashCommand;
 
 public class Main {
@@ -42,6 +43,8 @@ public class Main {
             SlashCommand pingCmd = SlashCommand.with("ping", "Returns Pong")
                     .createGlobal(api)
                     .join();
+
+            logger.info(api.getCustomEmojis());
         }
         catch (Exception e) {
             logger.error(e.getMessage());
