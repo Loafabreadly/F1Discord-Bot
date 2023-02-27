@@ -79,5 +79,6 @@ workflows:
             role-session-name: CIRole
             context: aws
         - update-ecs-task:
-           requires:
-             - aws-ecr/build-and-push-image
+            requires:
+              - aws-ecr/build-and-push-image
+            context: aws
