@@ -26,22 +26,20 @@ jobs:
 workflows:
     build-deploy:
       jobs:
-        - gradle-build:
+        - aws-ecr/build-and-push-image:
             filters:
               branches:
                 only:
                   - master
-        - aws-ecr/build-and-push-image:
-            requires:
-              - gradle-build
             dockerfile: Dockerfile
             assume-web-identity: true
-            checkout: true
+            region: '${AWS_DEFAULT_REGION}'
+            registry-id: AWS_ECR_REGISTRY_ID
+            extra-build-args: "--compress"
             create-repo: true
-            no-output-timeout: '3' 
+            no-output-timeout: '3m' 
             push-image: true 
             repo: f1discordbot
-            path: .
             repo-scan-on-push: true
             role-arn: arn:aws:iam::842735713588:role/CIRole
             role-session-name: CIRole
