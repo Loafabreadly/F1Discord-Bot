@@ -8,6 +8,8 @@ import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.interaction.*;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
 
@@ -43,16 +45,52 @@ public class Main {
             });
 
             //setting up our Ping/Pong slash command
+            /*
             SlashCommand pingCmd = SlashCommand.with("ping", "Returns Pong")
                     .createGlobal(api)
                     .join();
+            logger.debug("Registered the Ping command");
+            */
+
+            Set<SlashCommandBuilder> builders = new HashSet<>();
+            //Build out the ping cmd
+            builders.add(new SlashCommandBuilder()
+                    .setName("ping")
+                    .setDescription("Returns Pong"));
+            //build out the F1 Race data cmd
+            builders.add(new SlashCommandBuilder()
+                    .setName("f1")
+                    .setDescription("Returns F1 Race data using ergast")
+                    .setOptions(
+                            Arrays.asList(
+                            SlashCommandOption.createWithOptions(SlashCommandOptionType.SUB_COMMAND_GROUP, "ergast" ,"ergast API Data",
+                                    Arrays.asList(
+                                            SlashCommandOption.createWithOptions(SlashCommandOptionType.SUB_COMMAND, "race", "Outputs race specific data",
+                                                    Arrays.asList(
+                                                            SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "season", "Enter the year of the F1 season"),
+                                                            SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "race", "The number or name of the race")
+                                                    )))))));
+            //register our command
+            api.bulkOverwriteGlobalApplicationCommands(builders).join();
 
 
-            //setting up the response to our Ping/Pong slash command
+        //setting up the response to our Ping/Pong slash command
             api.addSlashCommandCreateListener(event -> {
                 SlashCommandInteraction inter = event.getSlashCommandInteraction();
-                SlashCommandInteractionOption seasonYear = inter.getOptions().get(0);
-                SlashCommandInteractionOption raceNum = inter.getArguments().get(1);
+
+                // Did the user pass arguments or is this a single word trigger command?
+                if (!inter.getArguments().isEmpty()) {
+                    // The first arg by index 0 is f1
+                    if (inter.getOptionByName("f1").isPresent()) {
+                        SlashCommandInteractionOption seasonYear = inter.getArguments().get(0);
+                        SlashCommandInteractionOption raceNum = inter.getArguments().get(1);
+                        int year = (int) Math.round(seasonYear.getDecimalValue().get());
+                        int race = (int) Math.round(raceNum.getDecimalValue().get());
+                        String callURL = apiURL + year + "/" + race + "/results";
+                        logger.info("I was asked to attempt to call " + callURL);
+                    }
+
+                }
                 //Our ping cmd
                 if (inter.getFullCommandName().equals("ping")) {
                     event.getInteraction()
@@ -62,16 +100,14 @@ public class Main {
                     logger.debug("Responded to Ping command");
                 }
                 else if (inter.getFullCommandName().equals("f1 race")) {
-                    int year = (int) Math.round(seasonYear.getDecimalValue().get());
-                    int race = (int) Math.round(raceNum.getDecimalValue().get());
-                    String callURL = apiURL + year + "/" + race + "/results";
-                    logger.info("I was asked to attempt to call" + callURL);
+
                 }
 
             });
 
             //Inital F1 Slash Command
             //called by /f1 race [season] [race number/name]
+            /*
             SlashCommand f1Cmd =
                     SlashCommand.with("f1", "A command to retrieve F1 race data",
                             Arrays.asList(
@@ -79,12 +115,14 @@ public class Main {
                                         Arrays.asList(
                                             SlashCommandOption.createWithOptions(SlashCommandOptionType.SUB_COMMAND, "race", "Outputs race specific data",
                                             Arrays.asList(
-                                                SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "F1 Season", "Enter the year of the F1 season"),
+                                                SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "season", "Enter the year of the F1 season"),
                                                 SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "race", "The number or name of the race")
                                             ))))))
                     .createGlobal(api)
                     .join();
-            //logger.info(api.getCustomEmojis());
+
+             */
+
         }
         catch (Exception e) {
             logger.error(e.getMessage());
