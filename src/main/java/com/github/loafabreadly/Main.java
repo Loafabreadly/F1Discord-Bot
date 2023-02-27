@@ -5,11 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
-import org.javacord.api.event.Event;
 import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandInteraction;
-import org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder;
-import org.javacord.api.interaction.callback.InteractionMessageBuilder;
 
 public class Main {
 
@@ -36,10 +33,10 @@ public class Main {
             logger.info("Setting bot status to match Git Commit of " + args[1]);
             api.updateActivity("v." + args[1]);
 
-            //Main message event listener
+            //Sending back our custom emoji
             api.addMessageCreateListener(event -> {
                 if (event.getMessageContent().equalsIgnoreCase("!nico")) {
-                    event.getChannel().sendMessage(":nicooo:");
+                    event.getChannel().sendMessage("<:F1 Fan Paddock:920009218801668156>");
                 }
             });
 
@@ -59,7 +56,7 @@ public class Main {
                 }
             });
 
-            logger.info(api.getCustomEmojis());
+            //logger.info(api.getCustomEmojis());
         }
         catch (Exception e) {
             logger.error(e.getMessage());
