@@ -6,11 +6,11 @@ ENV HOME_DIR=/app
 
 # DISCORD Bot Token passed from CI/CD Pipeline
 ARG DISCORD_TOKEN
-ENV DISCORD_TOKEN='${DISCORD_TOKEN}'
+ENV DISCORD_TOKEN=${DISCORD_TOKEN}
 
 # Git Commit Hash from CI/CD Pipeline
 ARG VER
-ENV VER='${VER}'
+ENV VER=${VER}
 
 # Setup
 WORKDIR $HOME_DIR
