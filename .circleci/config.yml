@@ -38,15 +38,15 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - aws-cli/setup:
-          role-arn: arn:aws:iam::842735713588:role/CIRole
+          role-arn: $AWS_ARN
           role-session-name: CIRole
       - aws-ecs/update-service:
-          cluster: cluster-f1discordbot 
-          container-image-name-updates: container=f1discordbot,image-and-tag=842735713588.dkr.ecr.us-west-2.amazonaws.com/f1discordbot:latest 
+          cluster: cluster-$APP_NAME 
+          container-image-name-updates: container=$APP_NAME,image-and-tag=$AWS_ECR_REGISTRY_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$APP_NAME:latest 
           deployment-controller: ECS 
           enable-circuit-breaker: false 
-          service-name: f1discordbot-service 
-          family: f1discordbot-task 
+          service-name: $APP_NAME-service 
+          family: $APP_NAME-task 
           force-new-deployment: true 
 workflows:
     build-deploy:
@@ -68,14 +68,14 @@ workflows:
             dockerfile: Dockerfile
             assume-web-identity: true
             region: '${AWS_DEFAULT_REGION}'
-            registry-id: AWS_ECR_REGISTRY_ID
+            registry-id: '$AWS_ECR_REGISTRY_ID'
             extra-build-args: "--compress --build-arg DISCORD_TOKEN=${DISCORD_TOKEN} --build-arg VER=${CIRCLE_BUILD_NUM}"
             create-repo: true
             no-output-timeout: '3m' 
             push-image: true 
-            repo: f1discordbot
+            repo: $APP_NAME
             repo-scan-on-push: true
-            role-arn: arn:aws:iam::842735713588:role/CIRole
+            role-arn: $AWS_ARN
             role-session-name: CIRole
             context: aws
         - update-ecs-task:
