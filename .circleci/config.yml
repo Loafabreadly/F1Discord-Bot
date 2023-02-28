@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Check Log4j2 Appender Level
           command: |
-            if [ "$(grep -c 'Root level=\"INFO\"' ~/src/main/resources/log4j2.xml)" -eq 0 ]; then
+            if [ "$(grep -c 'Root level=\"INFO\"' ~/repo/src/main/resources/log4j2.xml)" -eq 0 ]; then
               echo "Logging level set to something other than INFO"
               exit 1
             fi
