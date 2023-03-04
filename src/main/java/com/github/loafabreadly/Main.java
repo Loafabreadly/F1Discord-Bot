@@ -9,6 +9,7 @@ import org.javacord.api.interaction.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class Main {
@@ -25,6 +26,15 @@ public class Main {
         logger.trace("logging in with: " + args[0] + "\n");
 
         String apiURL = "https://ergast.com/api/f1/";
+        String[] memes = {
+                "https://i.redd.it/z3il2mpdc1191.jpg",
+                "https://i.redd.it/o6rn6l8jloc91.jpg",
+                "https://i.redd.it/b5iysi3arse91.jpg",
+                "https://i.redd.it/1psunhykc0081.jpg",
+                "https://i.redd.it/jzcmy8ui4fz71.png",
+                "https://i.redd.it/uijw6e4sez381.jpg",
+                "https://i.redd.it/ccooaodlf9081.jpg"
+        };
 
         //Login
         try {
@@ -57,6 +67,10 @@ public class Main {
             builders.add(new SlashCommandBuilder()
                     .setName("ping")
                     .setDescription("Returns Pong"));
+            //Build out the Skyq redbutton meme cmd
+            builders.add(new SlashCommandBuilder()
+                    .setName("redbutton")
+                    .setDescription("Are you a Sky Q Customer?"));
             //build out the F1 Race data cmd
             builders.add(new SlashCommandBuilder()
                     .setName("f1")
@@ -77,6 +91,9 @@ public class Main {
         //setting up the response to our Ping/Pong slash command
             api.addSlashCommandCreateListener(event -> {
                 SlashCommandInteraction inter = event.getSlashCommandInteraction();
+                if (inter.getUser().isBot()) {
+                    return;
+                }
                     // The first arg by index 0 is f1
                 logger.debug("We had an interaction");
                 logger.debug("We received: " + inter.getCommandName());
@@ -92,6 +109,12 @@ public class Main {
                                 .setContent(callURL)
                                 .respond();
                     }
+                if (inter.getFullCommandName().equals("redbutton")) {
+                    event.getInteraction()
+                            .createImmediateResponder()
+                            .setContent(getMemeLink(memes))
+                            .respond();
+                }
                 //Our ping cmd
                 if (inter.getFullCommandName().equals("ping")) {
                     event.getInteraction()
@@ -128,5 +151,11 @@ public class Main {
         catch (Exception e) {
             logger.error(e.getMessage());
         }
+    }
+
+    public static String getMemeLink(String [] links) {
+        Random rand = new Random();
+        int randomIndex = rand.nextInt(links.length);
+        return links[randomIndex];
     }
 }
