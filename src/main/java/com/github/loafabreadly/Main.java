@@ -1,5 +1,8 @@
 package com.github.loafabreadly;
 
+import com.github.loafabreadly.Commands.PingCmd;
+import me.koply.kcommando.KCommando;
+import me.koply.kcommando.integration.impl.javacord.JavacordIntegration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
@@ -46,6 +49,13 @@ public class Main {
             logger.info("Setting bot status to match Git Commit of " + args[1]);
             api.updateActivity("v." + args[1]);
 
+            JavacordIntegration jci = new JavacordIntegration(api);
+            KCommando kc = new KCommando(jci)
+                    .addPackage(Main.class.getPackageName())
+                    .setReadBotMessages(false)
+                    .setPrefix("/")
+                    .build();
+
             //Sending back our custom emoji
             api.addMessageCreateListener(event -> {
                 if (event.getMessageContent().equalsIgnoreCase("!nico")) {
@@ -53,14 +63,6 @@ public class Main {
                     logger.debug("Sent the Nico meme");
                 }
             });
-
-            //setting up our Ping/Pong slash command
-            /*
-            SlashCommand pingCmd = SlashCommand.with("ping", "Returns Pong")
-                    .createGlobal(api)
-                    .join();
-            logger.debug("Registered the Ping command");
-            */
 
             Set<SlashCommandBuilder> builders = new HashSet<>();
             //Build out the ping cmd
@@ -128,25 +130,6 @@ public class Main {
                 }
 
             });
-
-            //Inital F1 Slash Command
-            //called by /f1 race [season] [race number/name]
-            /*
-            SlashCommand f1Cmd =
-                    SlashCommand.with("f1", "A command to retrieve F1 race data",
-                            Arrays.asList(
-                                SlashCommandOption.createWithOptions(SlashCommandOptionType.SUB_COMMAND_GROUP, "ergast" ,"ergast API Data",
-                                        Arrays.asList(
-                                            SlashCommandOption.createWithOptions(SlashCommandOptionType.SUB_COMMAND, "race", "Outputs race specific data",
-                                            Arrays.asList(
-                                                SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "season", "Enter the year of the F1 season"),
-                                                SlashCommandOption.create(SlashCommandOptionType.DECIMAL, "race", "The number or name of the race")
-                                            ))))))
-                    .createGlobal(api)
-                    .join();
-
-             */
-
         }
         catch (Exception e) {
             logger.error(e.getMessage());
