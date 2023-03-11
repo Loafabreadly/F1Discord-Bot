@@ -1,6 +1,8 @@
 package com.github.loafabreadly.Command;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.loafabreadly.Constants;
+import com.github.loafabreadly.Util.ErgastAPI;
 import me.koply.kcommando.internal.OptionType;
 import me.koply.kcommando.internal.annotations.HandleSlash;
 import me.koply.kcommando.internal.annotations.Option;
@@ -12,11 +14,11 @@ import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 
 
 
-public class ErgastCmd implements Command {
+public class RaceCmd implements Command {
 
     private final Logger logger;
 
-    public ErgastCmd (Logger l) {
+    public RaceCmd(Logger l) {
         logger = l;
     }
 
@@ -32,12 +34,11 @@ public class ErgastCmd implements Command {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.respondLater();
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
-        SlashCommandInteractionOption seasonYear = e.getArgumentByName("season").get();
-        SlashCommandInteractionOption raceNum = e.getArgumentByName("racenum").get();
-        int year = (int) Math.round(seasonYear.getDecimalValue().get());
-        int race = (int) Math.round(raceNum.getDecimalValue().get());
-        String callURL = Constants.ERGASTAPIURL + year +"/" + race + "/results";
-        logger.info("I was asked to make a call to: " + callURL);
-        response.append("This will work at a later timer :)").send();
+        int raceNum = (int) Math.round(e.getArgumentByName("racenum").get().getDecimalValue().get());
+        int season = (int) Math.round(e.getArgumentByName("season").get().getDecimalValue().get());
+
+        String responseJson = ErgastAPI.getData(season, raceNum);
+        ObjectMapper om = new ObjectMapper();
+        om.readValue(responseJson)
     }
 }

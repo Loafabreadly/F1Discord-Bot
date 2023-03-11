@@ -8,12 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
-import org.javacord.api.interaction.*;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class Main {
 
@@ -57,7 +51,7 @@ public class Main {
             kc.registerObject(new PingCmd());
             kc.registerObject(new RedButtonCmd());
             kc.registerObject(new NicoCmd());
-            kc.registerObject(new ErgastCmd(logger));
+            kc.registerObject(new RaceCmd(logger));
 
         }
         catch (Exception e) {
