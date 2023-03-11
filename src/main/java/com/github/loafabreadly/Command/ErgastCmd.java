@@ -21,16 +21,19 @@ public class ErgastCmd implements Command {
     }
 
     @Override
-    @HandleSlash(name = "f1",
+    @HandleSlash(name = "race",
             desc = "Poll for F1 Data",
             global = true,
-            options = @Option(name = "race", desc = "Race specific data", type = OptionType.SUB_COMMAND_GROUP))
+            options = {
+            @Option(name = "racenum", desc = "The race number you are interested in", type = OptionType.INTEGER),
+            @Option(name = "season", desc = "The season of the race", type = OptionType.INTEGER)
+            })
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.respondLater();
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
         SlashCommandInteractionOption seasonYear = e.getArgumentByName("season").get();
-        SlashCommandInteractionOption raceNum = e.getArgumentByName("race").get();
+        SlashCommandInteractionOption raceNum = e.getArgumentByName("racenum").get();
         int year = (int) Math.round(seasonYear.getDecimalValue().get());
         int race = (int) Math.round(raceNum.getDecimalValue().get());
         String callURL = Constants.ERGASTAPIURL + year +"/" + race + "/results";
