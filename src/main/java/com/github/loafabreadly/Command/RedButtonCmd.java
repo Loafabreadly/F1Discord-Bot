@@ -21,7 +21,9 @@ public class RedButtonCmd implements Command {
             "https://i.redd.it/w21f7kuq5do81.jpg", "https://i.imgur.com/jV5epk9.jpg", "https://i.redd.it/rtwiz0wsgot91.jpg"
     };
     @Override
-    @HandleSlash(name = "redbutton", desc = "Are you a SkyQ or Sky Glass Customer?", global = true)
+    @HandleSlash(name = "redbutton",
+            desc = "Are you a SkyQ or Sky Glass Customer?",
+            global = true)
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.respondLater();

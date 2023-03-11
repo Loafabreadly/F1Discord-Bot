@@ -8,7 +8,10 @@ import org.javacord.api.interaction.SlashCommandInteraction;
 
 public class PingCmd implements Command {
     @Override
-    @HandleSlash(name = "pong", desc = "Responds with Ping via SlashCommand", options = @Option(type = OptionType.STRING, name = "name", required = true), global = true)
+    @HandleSlash(name = "pong",
+            desc = "Responds with Ping via SlashCommand",
+            options = @Option(type = OptionType.STRING, name = "name", required = true),
+            global = true)
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.createImmediateResponder()

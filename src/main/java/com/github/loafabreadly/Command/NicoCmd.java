@@ -7,7 +7,9 @@ import org.javacord.api.interaction.SlashCommandInteraction;
 public class NicoCmd implements Command {
 
     @Override
-    @HandleSlash(name = "nico", desc = "Is Hamilton's career over?", global = true)
+    @HandleSlash(name = "nico",
+            desc = "Is Hamilton's career over?",
+            global = true)
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.createImmediateResponder()

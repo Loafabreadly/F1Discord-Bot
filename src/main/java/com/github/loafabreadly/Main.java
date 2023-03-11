@@ -1,9 +1,6 @@
 package com.github.loafabreadly;
 
-import com.github.loafabreadly.Command.Command;
-import com.github.loafabreadly.Command.NicoCmd;
-import com.github.loafabreadly.Command.PingCmd;
-import com.github.loafabreadly.Command.RedButtonCmd;
+import com.github.loafabreadly.Command.*;
 import me.koply.kcommando.KCommando;
 import me.koply.kcommando.integration.impl.javacord.JavacordIntegration;
 import org.apache.logging.log4j.LogManager;
@@ -60,6 +57,7 @@ public class Main {
             kc.registerObject(new PingCmd());
             kc.registerObject(new RedButtonCmd());
             kc.registerObject(new NicoCmd());
+            kc.registerObject(new ErgastCmd(logger));
 
         }
         catch (Exception e) {
