@@ -14,13 +14,11 @@ import java.util.Random;
 public class RedButtonCmd implements Command {
 
     String[] memes = {
-            "https://i.redd.it/z3il2mpdc1191.jpg",
-            "https://i.redd.it/o6rn6l8jloc91.jpg",
-            "https://i.redd.it/b5iysi3arse91.jpg",
-            "https://i.redd.it/1psunhykc0081.jpg",
-            "https://i.redd.it/jzcmy8ui4fz71.png",
-            "https://i.redd.it/uijw6e4sez381.jpg",
-            "https://i.redd.it/ccooaodlf9081.jpg"
+            "https://i.redd.it/z3il2mpdc1191.jpg", "https://i.redd.it/o6rn6l8jloc91.jpg", "https://i.redd.it/b5iysi3arse91.jpg",
+            "https://i.redd.it/1psunhykc0081.jpg", "https://i.redd.it/jzcmy8ui4fz71.png", "https://i.redd.it/uijw6e4sez381.jpg",
+            "https://i.redd.it/ccooaodlf9081.jpg", "https://i.redd.it/nt9cv21aizla1.jpg", "https://i.redd.it/dfp62w3fz8491.png",
+            "https://i.redd.it/uw8v66r7qf291.jpg", "https://i.redd.it/ggvuvk9besla1.jpg", "https://i.redd.it/li3whjjkfu091.jpg",
+            "https://i.redd.it/w21f7kuq5do81.jpg", "https://i.imgur.com/jV5epk9.jpg", "https://i.redd.it/rtwiz0wsgot91.jpg"
     };
     @Override
     @HandleSlash(name = "redbutton", desc = "Are you a SkyQ or Sky Glass Customer?", global = true)
