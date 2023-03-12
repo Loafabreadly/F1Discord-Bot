@@ -1,11 +1,12 @@
 package com.github.loafabreadly.Util.Structures;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.net.URL;
 import java.util.Date;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Driver {
     private @Getter @Setter String givenName;
     private @Getter @Setter String familyName;
