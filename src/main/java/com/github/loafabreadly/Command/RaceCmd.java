@@ -1,7 +1,5 @@
 package com.github.loafabreadly.Command;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.loafabreadly.Constants;
@@ -50,17 +48,21 @@ public class RaceCmd implements Command {
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-            Races race = data.getMrData().getRaceTable().getRaces().get(0);
-            RaceResults raceResults = race.getRaceResults().get(0);
-            List<DriverResult> driverResults = raceResults.getDriverResults();
+            Races raceData = data.getMrData().getRaceTable().getRaces()[0];
+            Circuit circuitData = raceData.getCircuit();
+            DriverResult[] driverResults = raceData.getDriverResults();
 
             response.addEmbed(new EmbedBuilder()
                             .setColor(Constants.TED_RED)
                             .setAuthor(Constants.BOTNAME)
-                            .setTitle(race.getRaceName())
-                            .setFooter(race.getUrl().toString())
-                            .addField("Track Name", race.getCircuit().getCircuitName())
-                            .addField("Driver Winner", driverResults.get(0).getDriver().getGivenName() + driverResults.get(0).getDriver().getFamilyName()))
+                            .setThumbnail(Constants.BOTICON)
+                            .setTitle(raceData.getRaceName())
+                            .setFooter(raceData.getUrl().toString())
+                            .addInlineField("Track Name", circuitData.getCircuitName())
+                            .addInlineField("Constructor Winner", driverResults[0].getConstructor().getName())
+                            .addField("First Place", driverResults[0].getDriver().getGivenName() + " " + driverResults[0].getDriver().getFamilyName())
+                            .addField("Second Place", driverResults[1].getDriver().getGivenName() + " " + driverResults[1].getDriver().getFamilyName())
+                            .addField("Third Place",driverResults[2].getDriver().getGivenName() + " " + driverResults[2].getDriver().getFamilyName()))
                     .send().join();
         } catch (Exception ex) {
             logger.error(ex.toString());

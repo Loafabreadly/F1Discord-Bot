@@ -11,5 +11,5 @@ public class RaceTable {
     private @Getter @Setter int season;
     private @Getter @Setter int round;
     @JsonProperty("Races")
-    private @Getter @Setter List<Races> races;
+    private @Getter @Setter Races[] races;
 }

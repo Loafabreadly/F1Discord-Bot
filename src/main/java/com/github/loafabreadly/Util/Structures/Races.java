@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.net.URL;
-import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Races {
     private @Getter @Setter int season;
@@ -17,5 +17,6 @@ public class Races {
     private @Getter @Setter Circuit circuit;
     private @Getter @Setter String date;
     private @Getter @Setter String time;
-    private @Getter @Setter List<RaceResults> raceResults;
+    @JsonProperty("Results")
+    private @Getter @Setter DriverResult[] driverResults;
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.net.URL;
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Circuit {
     private @Getter @Setter String circuitId;
     private @Getter @Setter URL url;
