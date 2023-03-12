@@ -1,22 +1,16 @@
 package com.github.loafabreadly.Util.Structures;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class DriverResult {
-    private int position;
-    private Driver driver;
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
+    private @Getter @Setter int position;
+    private @Getter @Setter int number;
+    private @Getter @Setter String positionText;
+    private @Getter @Setter int points;
+    private @Getter @Setter Driver driver;
+    private @Getter @Setter Constructor constructor;
+    private @Getter @Setter int grid;
+    private @Getter @Setter int laps;
+    private @Getter @Setter String status;
 }

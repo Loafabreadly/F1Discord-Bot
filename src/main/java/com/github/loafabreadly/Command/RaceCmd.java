@@ -39,8 +39,8 @@ public class RaceCmd implements Command {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.respondLater();
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
-        int raceNum = (int) Math.round(e.getArgumentByName("racenum").get().getDecimalValue().get());
-        int season = (int) Math.round(e.getArgumentByName("season").get().getDecimalValue().get());
+        int raceNum = e.getArgumentByName("racenum").get().getDecimalValue().get().intValue();
+        int season = e.getArgumentByName("season").get().getDecimalValue().get().intValue();
 
         String responseJson = ErgastAPI.getData(season, raceNum);
         ObjectMapper om = new ObjectMapper();
