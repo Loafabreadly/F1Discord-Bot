@@ -8,11 +8,10 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
-import org.javacord.api.interaction.*;
+import org.javacord.api.interaction.SlashCommand;
+import org.javacord.api.interaction.SlashCommandBuilder;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.Collections;
 import java.util.Set;
 
 public class Main {
@@ -33,6 +32,7 @@ public class Main {
             DiscordApi api = new DiscordApiBuilder()
                     .setToken(args[0])
                     .addIntents(Intent.MESSAGE_CONTENT)
+                    .addIntents(Intent.GUILDS)
                     .login().join();
 
             switch (args.length) {
@@ -46,6 +46,13 @@ public class Main {
                     break;
             }
 
+            logger.info("Clearing past Global Slash Commands");
+            Set<SlashCommand> globalCommands = api.getGlobalSlashCommands().get();
+            for (SlashCommand cmd: globalCommands) {
+                logger.debug("Cleared out " + cmd.getName());
+                cmd.delete().join();
+            }
+
             JavacordIntegration jci = new JavacordIntegration(api);
             KCommando kc = new KCommando(jci)
                     .addPackage(Command.class.getPackageName())
@@ -54,10 +61,11 @@ public class Main {
                     .setOwners(Constants.OWNER_ID)
                     .build();
 
+            logger.info("Registering our Slash Commands");
             kc.registerObject(new PingCmd());
             kc.registerObject(new RedButtonCmd());
             kc.registerObject(new NicoCmd());
-            kc.registerObject(new ErgastCmd(logger));
+            kc.registerObject(new RaceCmd(logger));
 
         }
         catch (Exception e) {

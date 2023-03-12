@@ -12,8 +12,6 @@ public class NicoCmd implements Command {
             global = true)
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
-        e.createImmediateResponder()
-                .setContent("<:F1 Fan Paddock:920009218801668156>")
-                .respond();
+        e.getChannel().get().sendMessage("<:F1 Fan Paddock:920009218801668156>").join();
     }
 }

@@ -16,7 +16,7 @@ public class PingCmd implements Command {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.createImmediateResponder()
                 .setContent("Well hello there!")
-                .append("\nYou must be " + e.getArgumentByName("name").get().getStringValue().get())
+                .append("\nYou must be " + e.getArgumentStringValueByName("name").get())
                 .append("\nYou had entered: " + e.getCommandName())
                 .respond();
     }
