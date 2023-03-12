@@ -8,6 +8,11 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
+import org.javacord.api.interaction.SlashCommand;
+import org.javacord.api.interaction.SlashCommandBuilder;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class Main {
 
@@ -40,6 +45,10 @@ public class Main {
                     break;
             }
 
+            logger.info("Clearing past Global Slash Commands");
+            Set<SlashCommandBuilder> builder = Collections.emptySet();
+            api.bulkOverwriteGlobalApplicationCommands(builder);
+
             JavacordIntegration jci = new JavacordIntegration(api);
             KCommando kc = new KCommando(jci)
                     .addPackage(Command.class.getPackageName())
@@ -48,6 +57,7 @@ public class Main {
                     .setOwners(Constants.OWNER_ID)
                     .build();
 
+            logger.info("Registering our Slash Commands");
             kc.registerObject(new PingCmd());
             kc.registerObject(new RedButtonCmd());
             kc.registerObject(new NicoCmd());
