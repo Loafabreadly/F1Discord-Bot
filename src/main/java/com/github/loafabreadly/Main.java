@@ -32,6 +32,7 @@ public class Main {
             DiscordApi api = new DiscordApiBuilder()
                     .setToken(args[0])
                     .addIntents(Intent.MESSAGE_CONTENT)
+                    .addIntents(Intent.GUILDS)
                     .login().join();
 
             switch (args.length) {
@@ -46,8 +47,11 @@ public class Main {
             }
 
             logger.info("Clearing past Global Slash Commands");
-            Set<SlashCommandBuilder> builder = Collections.emptySet();
-            api.bulkOverwriteGlobalApplicationCommands(builder);
+            Set<SlashCommand> globalCommands = api.getGlobalSlashCommands().get();
+            for (SlashCommand cmd: globalCommands) {
+                logger.debug("Cleared out " + cmd.getName());
+                cmd.delete().join();
+            }
 
             JavacordIntegration jci = new JavacordIntegration(api);
             KCommando kc = new KCommando(jci)

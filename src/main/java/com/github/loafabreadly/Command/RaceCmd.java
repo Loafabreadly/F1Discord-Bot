@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.loafabreadly.Constants;
 import com.github.loafabreadly.Util.ErgastAPI;
+import com.github.loafabreadly.Util.ErrorHandler;
 import com.github.loafabreadly.Util.Structures.DriverResult;
+import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
+import com.github.loafabreadly.Util.Structures.MRData;
 import com.github.loafabreadly.Util.Structures.RaceResults;
 import lombok.NonNull;
 import me.koply.kcommando.internal.OptionType;
@@ -14,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
-import org.javacord.api.interaction.SlashCommandInteractionOption;
 import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 
 import java.util.List;
@@ -33,21 +35,22 @@ public class RaceCmd implements Command {
             desc = "Poll for F1 Data",
             global = true,
             options = {
-            @Option(name = "season", desc = "The season of the race", type = OptionType.INTEGER, required = true),
-            @Option(name = "racenum", desc = "The race number you are interested in", type = OptionType.INTEGER, required = true)
+            @Option(type = OptionType.STRING, name = "season", desc = "The season of the race",  required = true),
+            @Option(type = OptionType.STRING, name = "racenum", desc = "The race number you are interested in",  required = true)
             })
-    public void run(SlashCommandCreateEvent event) throws JsonProcessingException {
+    public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.respondLater();
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
 
         try {
-            int raceNum = e.getArgumentDecimalValueByName("racenum").get().intValue();
-            int season = e.getArgumentDecimalValueByName("season").get().intValue();
+            int season = Integer.parseInt(e.getArgumentStringValueByName("season").get());
+            int raceNum = Integer.parseInt(e.getArgumentStringValueByName("racenum").get());
 
             String responseJson = ErgastAPI.getData(season, raceNum);
             ObjectMapper om = new ObjectMapper();
-            RaceResults raceResults = om.readValue(responseJson, RaceResults.class);
+            ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
+            RaceResults raceResults = data.getMrData().getRaceTable().getRaces().get(0).getRaceResults().get(0);
             List<DriverResult> driverResults = raceResults.getDriverResults();
 
             response.addEmbed(new EmbedBuilder()
@@ -60,13 +63,7 @@ public class RaceCmd implements Command {
                     .send().join();
         } catch (Exception ex) {
             logger.error(ex.toString());
-            ex.printStackTrace();
-            response.addEmbed(new EmbedBuilder()
-                    .setAuthor(Constants.BOTNAME)
-                    .setColor(Constants.ERROR_COLOR)
-                    .addField("Stack Trace", ex.toString())
-                    .setTitle("We hit an error while replying!"))
-                    .send().join();
+            response.addEmbed(ErrorHandler.embedError(ex)).send().join();
         }
     }
 }
