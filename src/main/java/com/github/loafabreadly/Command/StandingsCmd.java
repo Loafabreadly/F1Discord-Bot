@@ -40,14 +40,14 @@ public class StandingsCmd implements Command {
             String choice = e.getArgumentStringValueByName("type").orElseThrow();
 
             switch (choice.toLowerCase()) {
-                case "constructors",
-                        "constructor",
-                        "c" -> {
+                case "constructors":
+                case "constructor":
+                case "c": {
                     //Send Constructors Standings
                 }
-                case "drivers",
-                        "driver",
-                        "d" -> {
+                case "drivers":
+                case "driver":
+                case "d": {
                     String responseJson = ErgastAPI.getDriverStandings();
                     ErgastObjectMapper om = new ErgastObjectMapper();
                     ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
@@ -55,7 +55,7 @@ public class StandingsCmd implements Command {
                     response.addEmbed(driverStandingsEmbed(standings))
                             .send().join();
                 }
-                default -> {
+                default: {
                     //Send both Drivers and Constructors
                     String responseJson = ErgastAPI.getConstructorStandings();
                     ErgastObjectMapper om = new ErgastObjectMapper();
