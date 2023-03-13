@@ -6,6 +6,9 @@ import lombok.Setter;
 
 public class StandingsList {
     private @Getter @Setter int season;
-    @JsonProperty("StandingsLists")
-    private @Getter @Setter StandingsList[] standingsLists;
+    private @Getter int round;
+    @JsonProperty("DriverStandings")
+    private @Getter DriverStandings[] driverStandings;
+    @JsonProperty("ConstructorStandings")
+    private @Getter ConstructorStandings[] constructorStandings;
 }

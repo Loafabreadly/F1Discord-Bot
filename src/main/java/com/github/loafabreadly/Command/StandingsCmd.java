@@ -5,6 +5,7 @@ import com.github.loafabreadly.Constants;
 import com.github.loafabreadly.Util.ErgastAPI;
 import com.github.loafabreadly.Util.ErgastObjectMapper;
 import com.github.loafabreadly.Util.ErrorHandler;
+import com.github.loafabreadly.Util.Structures.ConstructorStandings;
 import com.github.loafabreadly.Util.Structures.DriverStandings;
 import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
 import lombok.NonNull;
@@ -43,7 +44,12 @@ public class StandingsCmd implements Command {
                 case "constructors":
                 case "constructor":
                 case "c": {
-                    //Send Constructors Standings
+                    String responseJson = ErgastAPI.getConstructorStandings();
+                    ErgastObjectMapper om = new ErgastObjectMapper();
+                    ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
+                    ConstructorStandings[] standings = data.getMrData().getStandingsTable().getStandingsLists()[0].getConstructorStandings();
+                    response.addEmbed(constructorStandingsEmbed(standings))
+                            .send().join();
                 }
                 case "drivers":
                 case "driver":
@@ -51,17 +57,21 @@ public class StandingsCmd implements Command {
                     String responseJson = ErgastAPI.getDriverStandings();
                     ErgastObjectMapper om = new ErgastObjectMapper();
                     ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-                    DriverStandings[] standings = data.getMrData().getStandingsTable().getDriverStandings();
+                    DriverStandings[] standings = data.getMrData().getStandingsTable().getStandingsLists()[0].getDriverStandings();
                     response.addEmbed(driverStandingsEmbed(standings))
                             .send().join();
                 }
                 default: {
-                    //Send both Drivers and Constructors
-                    String responseJson = ErgastAPI.getConstructorStandings();
+                    String responseJson = ErgastAPI.getDriverStandings();
                     ErgastObjectMapper om = new ErgastObjectMapper();
                     ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-                    DriverStandings[] standings = data.getMrData().getStandingsTable().getDriverStandings();
-                    response.addEmbed(driverStandingsEmbed(standings))
+                    DriverStandings[] dStandings = data.getMrData().getStandingsTable().getStandingsLists()[0].getDriverStandings();
+                    response.addEmbed(driverStandingsEmbed(dStandings));
+
+                    responseJson = ErgastAPI.getConstructorStandings();
+                    data = om.readValue(responseJson, ErgastJsonReply.class);
+                    ConstructorStandings[] cStandings = data.getMrData().getStandingsTable().getStandingsLists()[0].getConstructorStandings();
+                    response.addEmbed(constructorStandingsEmbed(cStandings))
                             .send().join();
                 }
             }
@@ -71,13 +81,25 @@ public class StandingsCmd implements Command {
         }
     }
 
-
-    private EmbedBuilder constructorStandingsEmbed() {
+    /**
+     * Spits our an Embeded Message Full of the Constructor Standings
+     * @param standings The array of ConstructorStandings (examples/constructorStandings.json)
+     * @return An EmbedBuilder to be added to an InteractionFollowupMessagebuilder
+     */
+    private EmbedBuilder constructorStandingsEmbed(ConstructorStandings[] standings) {
+        EmbedBuilder embedBuilder = new EmbedBuilder()
+                .setColor(Constants.TED_RED)
+                .setAuthor(Constants.BOTNAME)
+                .setThumbnail(Constants.BOTICON);
+        for (ConstructorStandings standing: standings) {
+            embedBuilder.addField("Constructor",
+                    standing.getConstructor() + ": " + standing.getPoints() + " points - " + standing.getWins() + " wins");
+        }
         return new EmbedBuilder();
     }
     /**
      * Spits our an Embded Message Full of the Scoring Drivers Standings
-     * @param standings The Array of DriverStandings
+     * @param standings The Array of DriverStandings (examples/driverStandings.json)
      * @return An EmbedBuilder to be added to an InteractionFollowupMessagebuilder
      */
     private EmbedBuilder driverStandingsEmbed(DriverStandings[] standings) {
