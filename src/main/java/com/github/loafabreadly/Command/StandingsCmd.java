@@ -72,7 +72,9 @@ public class StandingsCmd implements Command {
     }
 
 
-
+    private EmbedBuilder constructorStandingsEmbed() {
+        return new EmbedBuilder();
+    }
     /**
      * Spits our an Embded Message Full of the Scoring Drivers Standings
      * @param standings The Array of DriverStandings

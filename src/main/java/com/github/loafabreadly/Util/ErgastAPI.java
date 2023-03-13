@@ -16,7 +16,7 @@ public class ErgastAPI {
      * @return A string of JSON data containing the API response
      */
     public static String getConstructorStandings() {
-        String url = Constants.ERGASTAPIURL + "current/constructorStandings";
+        String url = Constants.ERGASTAPIURL + "current/constructorStandings.json";
         try {
             return makeCall(url);
         } catch (Exception e) {
@@ -29,7 +29,7 @@ public class ErgastAPI {
      * @return A string of JSON data containing the API response
      */
     public static String getDriverStandings() {
-        String url = Constants.ERGASTAPIURL + "current/driverStandings";
+        String url = Constants.ERGASTAPIURL + "current/driverStandings.json";
         try {
             String reply = makeCall(url);
             return url;
