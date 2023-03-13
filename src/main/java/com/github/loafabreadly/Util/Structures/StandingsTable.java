@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class StandingsTable {
-    private @Getter int season;
+    private @Getter @Setter int season;
     @JsonProperty("StandingLists")
-    private @Getter StandingsList[] standingsLists;
+    private @Getter @Setter StandingsList[] standingsLists;
 }

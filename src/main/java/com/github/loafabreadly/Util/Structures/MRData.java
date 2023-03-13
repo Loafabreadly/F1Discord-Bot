@@ -10,11 +10,11 @@ public class MRData {
     private @Getter @Setter URL url;
     private @Getter @Setter String series;
     private @Getter @Setter String xmlns;
-    private @Getter int limit;
-    private @Getter int offset;
-    private @Getter int total;
+    private @Getter @Setter int limit;
+    private @Getter @Setter int offset;
+    private @Getter @Setter int total;
     @JsonProperty("RaceTable")
     private @Getter @Setter RaceTable raceTable;
     @JsonProperty("StandingsTable")
-    private @Getter @Setter StandingsTable StandingsTable;
+    private @Getter @Setter StandingsTable standingsTable;
 }

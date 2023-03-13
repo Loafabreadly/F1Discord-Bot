@@ -58,9 +58,21 @@ public class RaceCmd implements Command {
                             .setFooter(raceData.getUrl().toString())
                             .addInlineField("Track Name", circuitData.getCircuitName())
                             .addInlineField("Constructor Winner", driverResults[0].getConstructor().getName())
-                            .addField("First Place", driverResults[0].getDriver().getGivenName() + " " + driverResults[0].getDriver().getFamilyName())
-                            .addField("Second Place", driverResults[1].getDriver().getGivenName() + " " + driverResults[1].getDriver().getFamilyName())
-                            .addField("Third Place",driverResults[2].getDriver().getGivenName() + " " + driverResults[2].getDriver().getFamilyName()))
+                            .addField("First Place", driverResults[0].getDriver().getGivenName() +
+                                    " " +
+                                    driverResults[0].getDriver().getFamilyName() +
+                                    " - " +
+                                    driverResults[0].getConstructor().getName())
+                            .addField("Second Place", driverResults[1].getDriver().getGivenName() +
+                                    " " +
+                                    driverResults[1].getDriver().getFamilyName() +
+                                    " - " +
+                                    driverResults[1].getConstructor().getName())
+                            .addField("Third Place",driverResults[2].getDriver().getGivenName() +
+                                    " " +
+                                    driverResults[2].getDriver().getFamilyName() +
+                                    " - " +
+                                    driverResults[2].getConstructor().getName()))
                     .send().join();
         } catch (Exception ex) {
             logger.error(ex.toString());

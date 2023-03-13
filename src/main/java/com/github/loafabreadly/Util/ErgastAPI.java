@@ -31,8 +31,7 @@ public class ErgastAPI {
     public static String getDriverStandings() {
         String url = Constants.ERGASTAPIURL + "current/driverStandings.json";
         try {
-            String reply = makeCall(url);
-            return url;
+            return makeCall(url);
         } catch (Exception e) {
             return e.getMessage();
         }

@@ -22,7 +22,7 @@ public final class Constants {
     /*
     The F1 Race Data API Endpoint URL
      */
-    public static final String ERGASTAPIURL = "https://ergast.com/api/f1/";
+    public static final String ERGASTAPIURL = "http://ergast.com/api/f1/";
 
     /*
     The Bot's nickname

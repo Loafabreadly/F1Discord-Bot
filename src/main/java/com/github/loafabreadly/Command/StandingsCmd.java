@@ -8,6 +8,7 @@ import com.github.loafabreadly.Util.ErrorHandler;
 import com.github.loafabreadly.Util.Structures.ConstructorStandings;
 import com.github.loafabreadly.Util.Structures.DriverStandings;
 import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
+import com.github.loafabreadly.Util.Structures.StandingsList;
 import lombok.NonNull;
 import me.koply.kcommando.internal.OptionType;
 import me.koply.kcommando.internal.annotations.HandleSlash;
@@ -38,16 +39,16 @@ public class StandingsCmd implements Command {
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
 
         try {
-            String choice = e.getArgumentStringValueByName("type").orElseThrow();
 
-            switch (choice.toLowerCase()) {
+            switch (e.getArgumentStringValueByName("type").orElseThrow().toLowerCase()) {
                 case "constructors":
                 case "constructor":
                 case "c": {
                     String responseJson = ErgastAPI.getConstructorStandings();
+                    logger.info(responseJson);
                     ErgastObjectMapper om = new ErgastObjectMapper();
-                    ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-                    ConstructorStandings[] standings = data.getMrData().getStandingsTable().getStandingsLists()[0].getConstructorStandings();
+                    @NonNull StandingsList data = om.readValue(responseJson, StandingsList.class);
+                    ConstructorStandings[] standings = data.getConstructorStandings();
                     response.addEmbed(constructorStandingsEmbed(standings))
                             .send().join();
                 }
@@ -55,22 +56,26 @@ public class StandingsCmd implements Command {
                 case "driver":
                 case "d": {
                     String responseJson = ErgastAPI.getDriverStandings();
+                    logger.info(responseJson);
                     ErgastObjectMapper om = new ErgastObjectMapper();
-                    ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-                    DriverStandings[] standings = data.getMrData().getStandingsTable().getStandingsLists()[0].getDriverStandings();
+                    @NonNull StandingsList data = om.readValue(responseJson, StandingsList.class);
+                    DriverStandings[] standings = data.getDriverStandings();
                     response.addEmbed(driverStandingsEmbed(standings))
                             .send().join();
                 }
+                case "both":
+                case "b":
                 default: {
                     String responseJson = ErgastAPI.getDriverStandings();
+                    logger.info(responseJson);
                     ErgastObjectMapper om = new ErgastObjectMapper();
-                    ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-                    DriverStandings[] dStandings = data.getMrData().getStandingsTable().getStandingsLists()[0].getDriverStandings();
+                    @NonNull StandingsList data = om.readValue(responseJson, StandingsList.class);
+                    DriverStandings[] dStandings = data.getDriverStandings();
                     response.addEmbed(driverStandingsEmbed(dStandings));
 
                     responseJson = ErgastAPI.getConstructorStandings();
-                    data = om.readValue(responseJson, ErgastJsonReply.class);
-                    ConstructorStandings[] cStandings = data.getMrData().getStandingsTable().getStandingsLists()[0].getConstructorStandings();
+                    data = om.readValue(responseJson, StandingsList.class);
+                    ConstructorStandings[] cStandings = data.getConstructorStandings();
                     response.addEmbed(constructorStandingsEmbed(cStandings))
                             .send().join();
                 }

@@ -1,14 +1,19 @@
 package com.github.loafabreadly.Util.Structures;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class StandingsList {
-    private @Getter @Setter int season;
-    private @Getter int round;
+    @JsonProperty("season")
+    private int season;
+
+    @JsonProperty("round")
+    private int round;
+
     @JsonProperty("DriverStandings")
-    private @Getter DriverStandings[] driverStandings;
+    private DriverStandings[] driverStandings;
+
     @JsonProperty("ConstructorStandings")
-    private @Getter ConstructorStandings[] constructorStandings;
+    private  ConstructorStandings[] constructorStandings;
 }
