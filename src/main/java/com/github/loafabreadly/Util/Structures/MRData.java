@@ -15,4 +15,6 @@ public class MRData {
     private @Getter int total;
     @JsonProperty("RaceTable")
     private @Getter @Setter RaceTable raceTable;
+    @JsonProperty("StandingsTable")
+    private @Getter @Setter StandingsTable StandingsTable;
 }
