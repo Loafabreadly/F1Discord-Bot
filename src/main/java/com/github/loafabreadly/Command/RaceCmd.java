@@ -16,14 +16,12 @@ import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 
-import java.util.List;
-
 
 public class RaceCmd implements Command {
 
     private final @NonNull Logger logger;
 
-    public RaceCmd(Logger l) {
+    public RaceCmd(@NonNull Logger l) {
         logger = l;
     }
 
@@ -41,8 +39,8 @@ public class RaceCmd implements Command {
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
 
         try {
-            int season = Integer.parseInt(e.getArgumentStringValueByName("season").get());
-            int raceNum = Integer.parseInt(e.getArgumentStringValueByName("racenum").get());
+            int season = Integer.parseInt(e.getArgumentStringValueByName("season").orElseThrow());
+            int raceNum = Integer.parseInt(e.getArgumentStringValueByName("racenum").orElseThrow());
 
             String responseJson = ErgastAPI.getData(season, raceNum);
             ObjectMapper om = new ObjectMapper();

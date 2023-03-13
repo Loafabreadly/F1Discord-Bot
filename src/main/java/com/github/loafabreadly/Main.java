@@ -9,18 +9,16 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.interaction.SlashCommand;
-import org.javacord.api.interaction.SlashCommandBuilder;
 
-import java.util.Collections;
 import java.util.Set;
 
 public class Main {
 
     private static final Logger logger = LogManager.getLogger(Main.class);
 
-    /* Main Bot class
-    /   args[0] = Bot API Token
-    /   args[1] = Git commit code for version - Optional
+    /**
+     * The Bot Entrypoint
+     * @param args Requires 1, with an option to supply a second arg to set the bot status code
      */
     public static void main(String[] args) {
         System.setProperty("log4j.configurationFile", "/src/main/resources/log4j2.xml");
@@ -35,15 +33,12 @@ public class Main {
                     .addIntents(Intent.GUILDS)
                     .login().join();
 
-            switch (args.length) {
-                case 2:
-                    logger.info("Setting bot status to match Git Commit of " + args[1]);
-                    api.updateActivity("v." + args[1]);
-                    break;
-                default:
-                    logger.info("Setting bot status to match internal version of " + Constants.VERSION);
-                    api.updateActivity("v." + Constants.VERSION);
-                    break;
+            if (args.length == 2) {
+                logger.info("Setting bot status to match Git Commit of " + args[1]);
+                api.updateActivity("v." + args[1]);
+            } else {
+                logger.info("Setting bot status to match internal version of " + Constants.VERSION);
+                api.updateActivity("v." + Constants.VERSION);
             }
 
             logger.info("Clearing past Global Slash Commands");

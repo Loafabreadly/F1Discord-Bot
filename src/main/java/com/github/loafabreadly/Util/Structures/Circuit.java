@@ -1,6 +1,5 @@
 package com.github.loafabreadly.Util.Structures;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

@@ -18,8 +18,7 @@ public class ErgastAPI {
     public static String getConstructorStandings() {
         String url = Constants.ERGASTAPIURL + "current/constructorStandings";
         try {
-            String reply = makeCall(url);
-            return reply;
+            return makeCall(url);
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -47,8 +46,7 @@ public class ErgastAPI {
     public static String getData(int season, int raceNum) {
         String url = Constants.ERGASTAPIURL + season + "/" + raceNum + "/results.json";
         try {
-            String reply = makeCall(url);
-            return reply;
+            return makeCall(url);
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -58,13 +56,11 @@ public class ErgastAPI {
      *
      * @param url The API URl, assumes results.json is at the end.
      * @return A string of JSON data containing the API response
-     * @throws Exception
      */
     private static String makeCall(String url) throws Exception {
        @Cleanup CloseableHttpClient client = HttpClients.createDefault();
         HttpGet request = new HttpGet(url);
-        String responseJson = EntityUtils.toString(client.execute(request).getEntity());
 
-        return responseJson;
+        return EntityUtils.toString(client.execute(request).getEntity());
     }
 }
