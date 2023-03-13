@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.loafabreadly.Constants;
 import com.github.loafabreadly.Util.ErgastAPI;
+import com.github.loafabreadly.Util.ErgastObjectMapper;
 import com.github.loafabreadly.Util.ErrorHandler;
 import com.github.loafabreadly.Util.Structures.*;
 import lombok.NonNull;
@@ -43,8 +44,7 @@ public class RaceCmd implements Command {
             int raceNum = Integer.parseInt(e.getArgumentStringValueByName("racenum").orElseThrow());
 
             String responseJson = ErgastAPI.getData(season, raceNum);
-            ObjectMapper om = new ObjectMapper();
-            om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            ErgastObjectMapper om = new ErgastObjectMapper();
             ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
             Races raceData = data.getMrData().getRaceTable().getRaces()[0];
             Circuit circuitData = raceData.getCircuit();

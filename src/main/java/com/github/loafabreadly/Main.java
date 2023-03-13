@@ -61,7 +61,7 @@ public class Main {
             kc.registerObject(new RedButtonCmd());
             kc.registerObject(new NicoCmd());
             kc.registerObject(new RaceCmd(logger));
-
+            kc.registerObject(new StandingsCmd(logger));
         }
         catch (Exception e) {
             logger.error(e.getMessage());
