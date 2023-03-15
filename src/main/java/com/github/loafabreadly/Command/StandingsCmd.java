@@ -41,31 +41,23 @@ public class StandingsCmd implements Command {
         try {
 
             switch (e.getArgumentStringValueByName("type").orElseThrow().toLowerCase()) {
-                case "constructors":
-                case "constructor":
-                case "c": {
+                case "constructors", "constructor", "c" -> {
                     String responseJson = ErgastAPI.getConstructorStandings();
                     logger.debug(responseJson);
                     ErgastObjectMapper om = new ErgastObjectMapper();
                     @NonNull ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
                     response.addEmbed(constructorStandingsEmbed(data.getMrData().getStandingsTable().getStandingsLists().get(0).getConstructorStandings()))
                             .send().join();
-                    break;
                 }
-                case "drivers":
-                case "driver":
-                case "d": {
+                case "drivers", "driver", "d" -> {
                     String responseJson = ErgastAPI.getDriverStandings();
                     logger.debug(responseJson);
                     ErgastObjectMapper om = new ErgastObjectMapper();
                     @NonNull ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
                     response.addEmbed(driverStandingsEmbed(data.getMrData().getStandingsTable().getStandingsLists().get(0).getDriverStandings()))
                             .send().join();
-                    break;
                 }
-                case "both":
-                case "b":
-                default: {
+                case "both", "b" -> {
                     String responseJson = ErgastAPI.getDriverStandings();
                     logger.debug(responseJson);
                     ErgastObjectMapper om = new ErgastObjectMapper();
@@ -78,7 +70,10 @@ public class StandingsCmd implements Command {
                     List<ConstructorStandings> cStandings = data.getMrData().getStandingsTable().getStandingsLists().get(0).getConstructorStandings();
                     response.addEmbed(constructorStandingsEmbed(cStandings))
                             .send().join();
-                    break;
+                }
+                default -> {
+                    response.addEmbed(new EmbedBuilder()
+                            .addField("Hmmm", "How'd you manage this?")).send().join();
                 }
             }
         } catch (Exception ex) {
