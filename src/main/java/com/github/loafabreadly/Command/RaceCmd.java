@@ -48,7 +48,7 @@ public class RaceCmd implements Command {
             String responseJson = ErgastAPI.getData(season, raceNum);
             ErgastObjectMapper om = new ErgastObjectMapper();
             ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-            Races raceData = data.getMrData().getRaceTable().getRaces()[0];
+            Races raceData = data.getMrData().getRaceTable().getRaces().get(0);
             Circuit circuitData = raceData.getCircuit();
             List<DriverResult> driverResults = raceData.getDriverResults();
 
@@ -58,23 +58,36 @@ public class RaceCmd implements Command {
                             .setThumbnail(Constants.BOTICON)
                             .setTitle(raceData.getRaceName())
                             .setFooter(raceData.getUrl().toString())
-                            .addInlineField("Track Name", circuitData.getCircuitName())
-                            .addInlineField("Constructor Winner", driverResults.get(0).getConstructor().getName())
-                            .addField("First Place", driverResults.get(0).getDriver().getGivenName() +
+                            .addField("Track Name", circuitData.getCircuitName())
+                            .addField("Country", circuitData.getLocation().getCountry())
+                            .addField("Constructor Winner", driverResults.get(0).getConstructor().getName())
+                            .addInlineField("First Place", driverResults.get(0).getDriver().getGivenName() +
                                     " " +
                                     driverResults.get(0).getDriver().getFamilyName() +
                                     " - " +
                                     driverResults.get(0).getConstructor().getName())
-                            .addField("Second Place", driverResults.get(1).getDriver().getGivenName() +
+                            .addInlineField("Time/Laps", driverResults.get(0).getTime().getTime() +
+                                    "/" + driverResults.get(0).getLaps())
+                            .addInlineField("Fastest Laptime/Lap", driverResults.get(0).getFastestLap().getTime().getTime() +
+                                    "/" + driverResults.get(0).getFastestLap().getLap())
+                            .addInlineField("Second Place", driverResults.get(1).getDriver().getGivenName() +
                                     " " +
                                     driverResults.get(1).getDriver().getFamilyName() +
                                     " - " +
                                     driverResults.get(1).getConstructor().getName())
-                            .addField("Third Place",driverResults.get(2).getDriver().getGivenName() +
+                            .addInlineField("Delta/Laps", driverResults.get(1).getTime().getTime() +
+                                    "/" + driverResults.get(1).getLaps())
+                            .addInlineField("Fastest Laptime/Lap", driverResults.get(1).getFastestLap().getTime().getTime() +
+                                    "/" + driverResults.get(1).getFastestLap().getLap())
+                            .addInlineField("Third Place",driverResults.get(2).getDriver().getGivenName() +
                                     " " +
                                     driverResults.get(2).getDriver().getFamilyName() +
                                     " - " +
-                                    driverResults.get(2).getConstructor().getName()))
+                                    driverResults.get(2).getConstructor().getName())
+                            .addInlineField("Delta/Laps", driverResults.get(2).getTime().getTime() +
+                                    "/" + driverResults.get(2).getLaps())
+                            .addInlineField("Fastest Laptime/Lap", driverResults.get(2).getFastestLap().getTime().getTime() +
+                                    "/" + driverResults.get(2).getFastestLap().getLap())                    )
                     .send().join();
         } catch (Exception ex) {
             logger.error(ex.toString());

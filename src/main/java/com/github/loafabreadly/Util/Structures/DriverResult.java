@@ -20,4 +20,10 @@ public class DriverResult {
     private String grid;
     private int laps;
     private String status;
+
+    @JsonProperty("Time")
+    private F1Time time;
+
+    @JsonProperty("FastestLap")
+    private FastestLap fastestLap;
 }

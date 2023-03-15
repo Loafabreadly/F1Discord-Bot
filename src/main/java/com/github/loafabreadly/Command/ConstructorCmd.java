@@ -4,7 +4,6 @@ import com.github.loafabreadly.Util.ErgastAPI;
 import com.github.loafabreadly.Util.ErgastObjectMapper;
 import com.github.loafabreadly.Util.ErrorHandler;
 import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
-import com.github.loafabreadly.Util.Structures.RaceTable;
 import com.github.loafabreadly.Util.Structures.Races;
 import lombok.NonNull;
 import me.koply.kcommando.internal.OptionType;
@@ -37,7 +36,7 @@ public class ConstructorCmd implements Command {
             ErgastObjectMapper om = new ErgastObjectMapper();
             @NonNull ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
             List<Races> table = data.getMrData().getRaceTable().getRaces();
-            
+
         } catch (Exception ex) {
             logger.error(ex.toString());
             response.addEmbed(ErrorHandler.embedError(ex)).send().join();
