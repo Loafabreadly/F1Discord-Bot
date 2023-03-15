@@ -1,4 +1,4 @@
-FROM amazoncorretto:11-alpine3.17
+FROM amazoncorretto:17-alpine3.17
 
 # JAR File Name & Location
 ENV JAR_NAME=F1Discord-Bot-all.jar
