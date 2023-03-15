@@ -17,6 +17,8 @@ import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 
+import java.util.List;
+
 
 public class RaceCmd implements Command {
 
@@ -48,7 +50,7 @@ public class RaceCmd implements Command {
             ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
             Races raceData = data.getMrData().getRaceTable().getRaces()[0];
             Circuit circuitData = raceData.getCircuit();
-            DriverResult[] driverResults = raceData.getDriverResults();
+            List<DriverResult> driverResults = raceData.getDriverResults();
 
             response.addEmbed(new EmbedBuilder()
                             .setColor(Constants.TED_RED)
@@ -57,22 +59,22 @@ public class RaceCmd implements Command {
                             .setTitle(raceData.getRaceName())
                             .setFooter(raceData.getUrl().toString())
                             .addInlineField("Track Name", circuitData.getCircuitName())
-                            .addInlineField("Constructor Winner", driverResults[0].getConstructor().getName())
-                            .addField("First Place", driverResults[0].getDriver().getGivenName() +
+                            .addInlineField("Constructor Winner", driverResults.get(0).getConstructor().getName())
+                            .addField("First Place", driverResults.get(0).getDriver().getGivenName() +
                                     " " +
-                                    driverResults[0].getDriver().getFamilyName() +
+                                    driverResults.get(0).getDriver().getFamilyName() +
                                     " - " +
-                                    driverResults[0].getConstructor().getName())
-                            .addField("Second Place", driverResults[1].getDriver().getGivenName() +
+                                    driverResults.get(0).getConstructor().getName())
+                            .addField("Second Place", driverResults.get(1).getDriver().getGivenName() +
                                     " " +
-                                    driverResults[1].getDriver().getFamilyName() +
+                                    driverResults.get(1).getDriver().getFamilyName() +
                                     " - " +
-                                    driverResults[1].getConstructor().getName())
-                            .addField("Third Place",driverResults[2].getDriver().getGivenName() +
+                                    driverResults.get(1).getConstructor().getName())
+                            .addField("Third Place",driverResults.get(2).getDriver().getGivenName() +
                                     " " +
-                                    driverResults[2].getDriver().getFamilyName() +
+                                    driverResults.get(2).getDriver().getFamilyName() +
                                     " - " +
-                                    driverResults[2].getConstructor().getName()))
+                                    driverResults.get(2).getConstructor().getName()))
                     .send().join();
         } catch (Exception ex) {
             logger.error(ex.toString());

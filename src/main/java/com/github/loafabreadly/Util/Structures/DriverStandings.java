@@ -2,8 +2,9 @@ package com.github.loafabreadly.Util.Structures;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import java.util.List;
+
 @Data
 public class DriverStandings {
     @JsonProperty("position")
@@ -22,5 +23,5 @@ public class DriverStandings {
     private Driver driver;
 
     @JsonProperty("Constructors")
-    private Constructor[] constructor;
+    private List<Constructor> constructor;
 }

@@ -3,6 +3,8 @@ package com.github.loafabreadly.Util.Structures;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class StandingsList {
     @JsonProperty("season")
@@ -12,8 +14,8 @@ public class StandingsList {
     private int round;
 
     @JsonProperty("DriverStandings")
-    private DriverStandings[] driverStandings;
+    private List<DriverStandings> driverStandings;
 
     @JsonProperty("ConstructorStandings")
-    private  ConstructorStandings[] constructorStandings;
+    private List<ConstructorStandings> constructorStandings;
 }

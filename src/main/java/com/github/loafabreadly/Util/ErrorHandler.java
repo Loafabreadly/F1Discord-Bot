@@ -10,7 +10,7 @@ public class ErrorHandler {
         return new EmbedBuilder()
                 .setAuthor(Constants.BOTNAME)
                 .setColor(Constants.ERROR_COLOR)
-                .addField("Stack Trace", ex.toString())
+                .addField("Stack Trace", ex.getMessage())
                 .setTitle("We hit an error while replying!");
     }
 }

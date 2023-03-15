@@ -1,22 +1,23 @@
 package com.github.loafabreadly.Util.Structures;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 import java.net.URL;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class Races {
-    private @Getter @Setter int season;
-    private @Getter @Setter int round;
-    private @Getter @Setter URL url;
-    private @Getter @Setter String raceName;
+    private int season;
+    private  int round;
+    private  URL url;
+    private  String raceName;
     @JsonProperty("Circuit")
-    private @Getter @Setter Circuit circuit;
-    private @Getter @Setter String date;
-    private @Getter @Setter String time;
+    private  Circuit circuit;
+    private  String date;
+    private  String time;
     @JsonProperty("Results")
-    private @Getter @Setter DriverResult[] driverResults;
+    private List<DriverResult> driverResults;
 }
