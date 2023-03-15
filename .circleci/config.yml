@@ -65,6 +65,10 @@ workflows:
                   - master
                   - stg                  
         - aws-ecr/build-and-push-image: # We should only run the build & push + ECS update on the master branch.
+            filters:
+              branches:
+                only:
+                  - master           
             requires:
               - gradle-build
             pre-steps:
