@@ -1,12 +1,18 @@
 package com.github.loafabreadly.Util.Structures;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+import java.util.List;
+
+@Data
 public class RaceTable {
-    private @Getter @Setter int season;
-    private @Getter @Setter int round;
+    private int season;
+    private int round;
+
+    @JsonProperty("constructorId")
+    private String constructorId;
+
     @JsonProperty("Races")
-    private @Getter @Setter Races[] races;
+    private List<Races> races;
 }

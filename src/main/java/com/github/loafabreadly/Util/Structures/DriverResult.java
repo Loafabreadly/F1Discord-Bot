@@ -1,19 +1,23 @@
 package com.github.loafabreadly.Util.Structures;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
+@Data
 public class DriverResult {
-    private @Getter @Setter int number;
-    private @Getter @Setter int position;
-    private @Getter @Setter String positionText;
-    private @Getter @Setter int points;
+    private int number;
+    private int position;
+    private String positionText;
+    private String points;
+
     @JsonProperty("Driver")
-    private @Getter @Setter Driver driver;
+    private Driver driver;
+
     @JsonProperty("Constructor")
-    private @Getter @Setter Constructor constructor;
-    private @Getter @Setter int grid;
-    private @Getter @Setter int laps;
-    private @Getter @Setter String status;
+    private Constructor constructor;
+
+    private String grid;
+    private int laps;
+    private String status;
 }

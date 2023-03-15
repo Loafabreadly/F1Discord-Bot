@@ -36,6 +36,20 @@ public class ErgastAPI {
             return e.getMessage();
         }
     }
+
+    /**
+     * Constructor specific data
+     * @param constructor The Constructor/F1 Team we are interested in
+     * @return A string of JSON data containing the API response
+     */
+    public static String getData(String constructor) {
+        String url = Constants.ERGASTAPIURL + "constructors/" + constructor;
+        try {
+            return makeCall(url);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
     /**
      * Season + Race Data
      * @param season - The season of the year we need to make a call for
