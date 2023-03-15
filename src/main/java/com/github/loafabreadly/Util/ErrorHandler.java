@@ -10,7 +10,10 @@ public class ErrorHandler {
         return new EmbedBuilder()
                 .setAuthor(Constants.BOTNAME)
                 .setColor(Constants.ERROR_COLOR)
+                .setUrl("https://github.com/Loafabreadly/F1Discord-Bot/issues/new/choose")
+                .setTitle("We hit an error while replying!")
                 .addField("Stack Trace", ex.getMessage())
-                .setTitle("We hit an error while replying!");
+                .addInlineField("Submit an issue!", "Submit an issue on my Github and I will take a look")
+                .addInlineField("Link", "https://github.com/Loafabreadly/F1Discord-Bot/issues/new/choose");
     }
 }

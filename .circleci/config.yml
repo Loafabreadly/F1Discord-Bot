@@ -58,12 +58,13 @@ jobs:
 workflows:
     build-deploy:
       jobs:
-        - gradle-build # We run the gradle-build pipeline on all branches to validate build
-        - aws-ecr/build-and-push-image: # We should only run the build & push + ECS update on the master branch.
+        - gradle-build: # We run the gradle-build pipeline on all branches to validate build
             filters:
               branches:
                 only:
                   - master
+                  - stg                  
+        - aws-ecr/build-and-push-image: # We should only run the build & push + ECS update on the master branch.
             requires:
               - gradle-build
             pre-steps:
