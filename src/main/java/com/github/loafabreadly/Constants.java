@@ -1,6 +1,9 @@
 package com.github.loafabreadly;
 
 import java.awt.Color;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 public final class Constants {
 
@@ -34,5 +37,10 @@ public final class Constants {
      */
     public static final String VERSION = "indev";
 
+    /*
+    The img to use in embeds for the bot
+     */
     public static final String BOTICON = "https://i.imgur.com/BtcVPHP.png";
+
+    public static final List<String> constructorIds = Collections.emptyList();
 }

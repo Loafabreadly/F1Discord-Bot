@@ -1,16 +1,18 @@
 package com.github.loafabreadly.Util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
+
 import com.github.loafabreadly.Constants;
+import com.github.loafabreadly.Main;
 import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
-import com.github.loafabreadly.Util.Structures.RaceResult;
 import com.github.loafabreadly.Util.Structures.Races;
 import lombok.Cleanup;
+import lombok.NonNull;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 
 public class ErgastAPI {
 
+    private static final @NonNull Logger logger = LogManager.getLogger(Main.class.getName());;
 
     /**
      * The current constructor standings
@@ -58,13 +61,13 @@ public class ErgastAPI {
         while (hasNextPage) {
             try {
                 ErgastObjectMapper om = new ErgastObjectMapper();
-                System.out.println(url + "&offset=" + offset);
+                logger.info(url + "&offset=" + offset);
                 ErgastJsonReply root = om.readValue(makeCall(url + "&offset=" + offset), ErgastJsonReply.class);
-                System.out.println(root.toString());
+                logger.info(root.toString());
                 List<Races> results = root.getMrData().getRaceTable().getRaces();
-                System.out.println("Just retrieved " + results.size() + " races");
+                logger.info("Just retrieved " + results.size() + " races");
                 allResults.addAll(results);
-                System.out.println("Total race count at " + allResults.size());
+                logger.info("Total race count at " + allResults.size());
 
                 int total = root.getMrData().getTotal();
                 int limit = root.getMrData().getLimit();

@@ -3,14 +3,17 @@ package com.github.loafabreadly.Command;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.loafabreadly.Constants;
+import com.github.loafabreadly.Main;
 import com.github.loafabreadly.Util.ErgastAPI;
 import com.github.loafabreadly.Util.ErgastObjectMapper;
 import com.github.loafabreadly.Util.ErrorHandler;
+import com.github.loafabreadly.Util.F1EmbedBuilder;
 import com.github.loafabreadly.Util.Structures.*;
 import lombok.NonNull;
 import me.koply.kcommando.internal.OptionType;
 import me.koply.kcommando.internal.annotations.HandleSlash;
 import me.koply.kcommando.internal.annotations.Option;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
@@ -22,11 +25,8 @@ import java.util.List;
 
 public class RaceCmd implements Command {
 
-    private final @NonNull Logger logger;
+    private final @NonNull Logger logger = LogManager.getLogger(Main .class.getName());;
 
-    public RaceCmd(@NonNull Logger l) {
-        logger = l;
-    }
 
     @Override
     @HandleSlash(name = "race",
@@ -51,10 +51,7 @@ public class RaceCmd implements Command {
             Circuit circuitData = raceData.getCircuit();
             List<DriverResult> driverResults = raceData.getDriverResults();
 
-            response.addEmbed(new EmbedBuilder()
-                            .setColor(Constants.TED_RED)
-                            .setAuthor(Constants.BOTNAME)
-                            .setThumbnail(Constants.BOTICON)
+            response.addEmbed(new F1EmbedBuilder()
                             .setTitle(raceData.getRaceName())
                             .setFooter(raceData.getUrl().toString())
                             .addField("Track Name", circuitData.getCircuitName())

@@ -17,7 +17,6 @@ public class ErgastHandler {
         for (Races r: races) {
             for (DriverResult s: r.getDriverResults()) {
                 total += Double.parseDouble(s.getPoints());
-                System.out.println("Total points counter - " + total);
             }
         }
         return total;

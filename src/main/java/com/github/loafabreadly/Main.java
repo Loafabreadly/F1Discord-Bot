@@ -63,9 +63,9 @@ public class Main {
             kc.registerObject(new PingCmd());
             kc.registerObject(new RedButtonCmd());
             kc.registerObject(new NicoCmd());
-            kc.registerObject(new RaceCmd(logger));
-            kc.registerObject(new StandingsCmd(logger));
-            kc.registerObject(new ConstructorCmd(logger));
+            kc.registerObject(new RaceCmd());
+            kc.registerObject(new StandingsCmd());
+            kc.registerObject(new ConstructorCmd());
         }
         catch (Exception e) {
             logger.error(e.getMessage());
