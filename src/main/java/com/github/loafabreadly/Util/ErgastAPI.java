@@ -3,6 +3,7 @@ package com.github.loafabreadly.Util;
 
 import com.github.loafabreadly.Constants;
 import com.github.loafabreadly.Main;
+import com.github.loafabreadly.Util.Structures.Constructor;
 import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
 import com.github.loafabreadly.Util.Structures.Races;
 import lombok.Cleanup;
@@ -45,6 +46,21 @@ public class ErgastAPI {
             return makeCall(url);
         } catch (Exception e) {
             return e.getMessage();
+        }
+    }
+
+    public static void populateConstructorIdList() {
+        String url = Constants.ERGASTAPIURL + "/constructors.json?limit=250";
+        ErgastObjectMapper om = new ErgastObjectMapper();
+        try {
+            ErgastJsonReply reply = om.readValue(makeCall(url), ErgastJsonReply.class);
+            for (Constructor c: reply.getMrData().getConstructorTable().getConstructorsList()) {
+                Constants.constructorIds.add(c.getConstructorId());
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+
         }
     }
 

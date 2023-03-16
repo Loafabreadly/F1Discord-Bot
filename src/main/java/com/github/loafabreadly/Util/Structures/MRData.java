@@ -19,4 +19,7 @@ public class MRData {
 
     @JsonProperty("StandingsTable")
     private StandingsTable standingsTable;
+
+    @JsonProperty("ConstructorTable")
+    private ConstructorTable constructorTable;
 }

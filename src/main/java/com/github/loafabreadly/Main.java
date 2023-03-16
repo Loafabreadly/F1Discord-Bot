@@ -1,6 +1,7 @@
 package com.github.loafabreadly;
 
 import com.github.loafabreadly.Command.*;
+import com.github.loafabreadly.Util.ErgastAPI;
 import me.koply.kcommando.KCommando;
 import me.koply.kcommando.integration.impl.javacord.JavacordIntegration;
 import org.apache.logging.log4j.LogManager;
@@ -66,6 +67,10 @@ public class Main {
             kc.registerObject(new RaceCmd());
             kc.registerObject(new StandingsCmd());
             kc.registerObject(new ConstructorCmd());
+
+            logger.info("Populating the Constructor ID List");
+            ErgastAPI.populateConstructorIdList();
+            logger.info("List now contains " + Constants.constructorIds.size() + " constructors");
         }
         catch (Exception e) {
             logger.error(e.getMessage());
