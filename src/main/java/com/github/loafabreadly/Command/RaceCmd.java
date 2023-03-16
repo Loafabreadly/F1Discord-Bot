@@ -45,9 +45,8 @@ public class RaceCmd implements Command {
             int season = Integer.parseInt(e.getArgumentStringValueByName("season").orElseThrow());
             int raceNum = Integer.parseInt(e.getArgumentStringValueByName("racenum").orElseThrow());
 
-            String responseJson = ErgastAPI.getData(season, raceNum);
             ErgastObjectMapper om = new ErgastObjectMapper();
-            ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
+            ErgastJsonReply data = om.readValue(ErgastAPI.getData(season, raceNum), ErgastJsonReply.class);
             Races raceData = data.getMrData().getRaceTable().getRaces().get(0);
             Circuit circuitData = raceData.getCircuit();
             List<DriverResult> driverResults = raceData.getDriverResults();

@@ -1,6 +1,7 @@
 package com.github.loafabreadly.Command;
 
 import com.github.loafabreadly.Util.ErgastAPI;
+import com.github.loafabreadly.Util.ErgastHandler;
 import com.github.loafabreadly.Util.ErgastObjectMapper;
 import com.github.loafabreadly.Util.ErrorHandler;
 import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
@@ -10,6 +11,7 @@ import me.koply.kcommando.internal.OptionType;
 import me.koply.kcommando.internal.annotations.HandleSlash;
 import me.koply.kcommando.internal.annotations.Option;
 import org.apache.logging.log4j.Logger;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
@@ -25,6 +27,7 @@ public class ConstructorCmd implements Command {
     @Override
     @HandleSlash(name = "constructors",
     desc = "Provide info on F1 Constructors",
+    global = true,
     options = @Option(type = OptionType.STRING, name = "team", desc = "The F1 Team you are interested in", required = true))
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
@@ -32,10 +35,12 @@ public class ConstructorCmd implements Command {
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
 
         try {
-            String responseJson = ErgastAPI.getData(e.getArgumentStringValueByName("team").orElseThrow().toLowerCase());
-            ErgastObjectMapper om = new ErgastObjectMapper();
-            @NonNull ErgastJsonReply data = om.readValue(responseJson, ErgastJsonReply.class);
-            List<Races> table = data.getMrData().getRaceTable().getRaces();
+            @NonNull List<Races> constructorResults = ErgastAPI.getData(e.getArgumentStringValueByName("team").orElseThrow().toLowerCase());
+
+            response.addEmbed(new EmbedBuilder()
+                    .addField("First Race", constructorResults.get(0).getRaceName())
+                    .addField("Total points earned", Integer.toString(ErgastHandler.getConstructorTotalPoints(constructorResults))))
+                    .send().join();
 
         } catch (Exception ex) {
             logger.error(ex.toString());

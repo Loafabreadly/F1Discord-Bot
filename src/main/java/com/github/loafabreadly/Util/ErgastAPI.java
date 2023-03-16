@@ -1,11 +1,18 @@
 package com.github.loafabreadly.Util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.loafabreadly.Constants;
+import com.github.loafabreadly.Util.Structures.RaceResult;
+import com.github.loafabreadly.Util.Structures.Races;
 import lombok.Cleanup;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ErgastAPI {
@@ -42,13 +49,34 @@ public class ErgastAPI {
      * @param constructor The Constructor/F1 Team we are interested in
      * @return A string of JSON data containing the API response
      */
-    public static String getData(String constructor) {
-        String url = Constants.ERGASTAPIURL + "constructors/" + constructor;
-        try {
-            return makeCall(url);
-        } catch (Exception e) {
-            return e.getMessage();
+    public static List<Races> getData(String constructor) {
+        String url = Constants.ERGASTAPIURL + "constructors/" + constructor + "/results.json?limit=100";
+        List<Races> allResults = new ArrayList<>();
+        int offset = 0;
+        boolean hasNextPage = true;
+        while (hasNextPage) {
+            try {
+                ErgastObjectMapper om = new ErgastObjectMapper();
+                JsonNode root = om.readTree(makeCall(url + "&offset=" + offset));
+                JsonNode resultsNode = root.get("MRData").get("RaceTable").get("Races");
+                List<Races> results = om.readValue(resultsNode.toString(), new TypeReference<List<Races>>() {});
+                allResults.addAll(results);
+
+                int total = root.get("MRData").get("total").asInt();
+                int limit = root.get("MRData").get("limit").asInt();
+                int count = root.get("MRData").get("RaceTable").get("Races").size();
+
+                if (offset + count >= total) {
+                    hasNextPage = false;
+                } else {
+                    offset += limit;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
+        return allResults;
     }
     /**
      * Season + Race Data
