@@ -12,11 +12,12 @@ public class ErgastHandler {
      * @param races A list of all the races the constructor has participated in
      * @return A integer total of all the points they have ever earned
      */
-    public static int getConstructorTotalPoints(List<Races> races) {
-        int total = 0;
+    public static Double getConstructorTotalPoints(List<Races> races) {
+        double total = 0.0;
         for (Races r: races) {
             for (DriverResult s: r.getDriverResults()) {
-                total += Integer.parseInt(s.getPoints());
+                total += Double.parseDouble(s.getPoints());
+                System.out.println("Total points counter - " + total);
             }
         }
         return total;

@@ -28,20 +28,21 @@ public class ConstructorCmd implements Command {
     @HandleSlash(name = "constructors",
     desc = "Provide info on F1 Constructors",
     global = true,
-    options = @Option(type = OptionType.STRING, name = "team", desc = "The F1 Team you are interested in", required = true))
+    options = @Option(type = OptionType.STRING, name = "team", desc = "The F1 Team(ex red_bull)", required = true))
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.respondLater();
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
 
         try {
-            @NonNull List<Races> constructorResults = ErgastAPI.getData(e.getArgumentStringValueByName("team").orElseThrow().toLowerCase());
+            @NonNull String team = e.getArgumentStringValueByName("team").orElseThrow().toLowerCase();
+            @NonNull List<Races> constructorResults = ErgastAPI.getData(team);
 
             response.addEmbed(new EmbedBuilder()
-                    .addField("First Race", constructorResults.get(0).getRaceName())
-                    .addField("Total points earned", Integer.toString(ErgastHandler.getConstructorTotalPoints(constructorResults))))
-                    .send().join();
-
+                            .addField("First Race", constructorResults.get(0).getRaceName())
+                            .addField("Total points earned", Double.toString(ErgastHandler.getConstructorTotalPoints(constructorResults)))
+                            .addField("Most Recent Race", constructorResults.get(constructorResults.size()-1).getRaceName()))
+                        .send().join();
         } catch (Exception ex) {
             logger.error(ex.toString());
             response.addEmbed(ErrorHandler.embedError(ex)).send().join();

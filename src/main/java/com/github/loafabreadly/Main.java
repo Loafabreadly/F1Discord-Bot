@@ -41,6 +41,7 @@ public class Main {
                 api.updateActivity("v." + Constants.VERSION);
             }
 
+            /*
             logger.info("Clearing past Global Slash Commands");
             Set<SlashCommand> globalCommands = api.getGlobalSlashCommands().get();
             for (SlashCommand cmd: globalCommands) {
@@ -48,12 +49,14 @@ public class Main {
                 cmd.delete().join();
             }
 
+            */
             JavacordIntegration jci = new JavacordIntegration(api);
             KCommando kc = new KCommando(jci)
                     .addPackage(Command.class.getPackageName())
                     .setReadBotMessages(false)
                     .setPrefix("/")
                     .setOwners(Constants.OWNER_ID)
+                    .setVerbose(true)
                     .build();
 
             logger.info("Registering our Slash Commands");

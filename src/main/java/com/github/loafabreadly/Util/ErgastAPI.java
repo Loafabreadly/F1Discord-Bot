@@ -3,6 +3,7 @@ package com.github.loafabreadly.Util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.loafabreadly.Constants;
+import com.github.loafabreadly.Util.Structures.ErgastJsonReply;
 import com.github.loafabreadly.Util.Structures.RaceResult;
 import com.github.loafabreadly.Util.Structures.Races;
 import lombok.Cleanup;
@@ -50,21 +51,24 @@ public class ErgastAPI {
      * @return A string of JSON data containing the API response
      */
     public static List<Races> getData(String constructor) {
-        String url = Constants.ERGASTAPIURL + "constructors/" + constructor + "/results.json?limit=100";
+        String url = Constants.ERGASTAPIURL + "constructors/" + constructor + "/results.json?limit=250";
         List<Races> allResults = new ArrayList<>();
         int offset = 0;
         boolean hasNextPage = true;
         while (hasNextPage) {
             try {
                 ErgastObjectMapper om = new ErgastObjectMapper();
-                JsonNode root = om.readTree(makeCall(url + "&offset=" + offset));
-                JsonNode resultsNode = root.get("MRData").get("RaceTable").get("Races");
-                List<Races> results = om.readValue(resultsNode.toString(), new TypeReference<List<Races>>() {});
+                System.out.println(url + "&offset=" + offset);
+                ErgastJsonReply root = om.readValue(makeCall(url + "&offset=" + offset), ErgastJsonReply.class);
+                System.out.println(root.toString());
+                List<Races> results = root.getMrData().getRaceTable().getRaces();
+                System.out.println("Just retrieved " + results.size() + " races");
                 allResults.addAll(results);
+                System.out.println("Total race count at " + allResults.size());
 
-                int total = root.get("MRData").get("total").asInt();
-                int limit = root.get("MRData").get("limit").asInt();
-                int count = root.get("MRData").get("RaceTable").get("Races").size();
+                int total = root.getMrData().getTotal();
+                int limit = root.getMrData().getLimit();
+                int count = results.size();
 
                 if (offset + count >= total) {
                     hasNextPage = false;
