@@ -1,9 +1,7 @@
-package com.github.loafabreadly.Command;
+package com.github.loafabreadly.command;
 
 import com.github.loafabreadly.Constants;
-import me.koply.kcommando.internal.OptionType;
 import me.koply.kcommando.internal.annotations.HandleSlash;
-import me.koply.kcommando.internal.annotations.Option;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
@@ -13,7 +11,7 @@ import java.util.Random;
 
 public class RedButtonCmd implements Command {
 
-    String[] memes = {
+    final String[] memes = {
             "https://i.redd.it/z3il2mpdc1191.jpg", "https://i.redd.it/o6rn6l8jloc91.jpg", "https://i.redd.it/b5iysi3arse91.jpg",
             "https://i.redd.it/1psunhykc0081.jpg", "https://i.redd.it/jzcmy8ui4fz71.png", "https://i.redd.it/uijw6e4sez381.jpg",
             "https://i.redd.it/ccooaodlf9081.jpg", "https://i.redd.it/nt9cv21aizla1.jpg", "https://i.redd.it/dfp62w3fz8491.png",

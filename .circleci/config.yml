@@ -6,7 +6,7 @@ orbs:
 jobs:
   gradle-build:
     docker:
-      - image: cimg/openjdk:11.0.18
+      - image: cimg/openjdk:17.0.6
     working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx3200m
@@ -58,12 +58,17 @@ jobs:
 workflows:
     build-deploy:
       jobs:
-        - gradle-build # We run the gradle-build pipeline on all branches to validate build
-        - aws-ecr/build-and-push-image: # We should only run the build & push + ECS update on the master branch.
+        - gradle-build: # We run the gradle-build pipeline on all branches to validate build
             filters:
               branches:
                 only:
                   - master
+                  - stg                  
+        - aws-ecr/build-and-push-image: # We should only run the build & push + ECS update on the master branch.
+            filters:
+              branches:
+                only:
+                  - master           
             requires:
               - gradle-build
             pre-steps:

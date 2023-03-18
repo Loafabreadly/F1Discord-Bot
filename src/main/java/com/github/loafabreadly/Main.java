@@ -1,6 +1,7 @@
 package com.github.loafabreadly;
 
-import com.github.loafabreadly.Command.*;
+import com.github.loafabreadly.command.*;
+import com.github.loafabreadly.util.ErgastAPI;
 import me.koply.kcommando.KCommando;
 import me.koply.kcommando.integration.impl.javacord.JavacordIntegration;
 import org.apache.logging.log4j.LogManager;
@@ -8,19 +9,14 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
-import org.javacord.api.interaction.SlashCommand;
-import org.javacord.api.interaction.SlashCommandBuilder;
-
-import java.util.Collections;
-import java.util.Set;
 
 public class Main {
 
     private static final Logger logger = LogManager.getLogger(Main.class);
 
-    /* Main Bot class
-    /   args[0] = Bot API Token
-    /   args[1] = Git commit code for version - Optional
+    /**
+     * The Bot Entrypoint
+     * @param args Requires 1, with an option to supply a second arg to set the bot status code
      */
     public static void main(String[] args) {
         System.setProperty("log4j.configurationFile", "/src/main/resources/log4j2.xml");
@@ -35,22 +31,12 @@ public class Main {
                     .addIntents(Intent.GUILDS)
                     .login().join();
 
-            switch (args.length) {
-                case 2:
-                    logger.info("Setting bot status to match Git Commit of " + args[1]);
-                    api.updateActivity("v." + args[1]);
-                    break;
-                default:
-                    logger.info("Setting bot status to match internal version of " + Constants.VERSION);
-                    api.updateActivity("v." + Constants.VERSION);
-                    break;
-            }
-
-            logger.info("Clearing past Global Slash Commands");
-            Set<SlashCommand> globalCommands = api.getGlobalSlashCommands().get();
-            for (SlashCommand cmd: globalCommands) {
-                logger.debug("Cleared out " + cmd.getName());
-                cmd.delete().join();
+            if (args.length == 2) {
+                logger.info("Setting bot status to match Git Commit of " + args[1]);
+                api.updateActivity("v." + args[1]);
+            } else {
+                logger.info("Setting bot status to match internal version of " + Constants.VERSION);
+                api.updateActivity("v." + Constants.VERSION);
             }
 
             JavacordIntegration jci = new JavacordIntegration(api);
@@ -59,14 +45,20 @@ public class Main {
                     .setReadBotMessages(false)
                     .setPrefix("/")
                     .setOwners(Constants.OWNER_ID)
+                    .setVerbose(true)
                     .build();
 
             logger.info("Registering our Slash Commands");
             kc.registerObject(new PingCmd());
             kc.registerObject(new RedButtonCmd());
             kc.registerObject(new NicoCmd());
-            kc.registerObject(new RaceCmd(logger));
+            kc.registerObject(new RaceCmd());
+            kc.registerObject(new StandingsCmd());
+            kc.registerObject(new ConstructorCmd());
 
+            logger.info("Populating the Constructor ID List");
+            ErgastAPI.populateConstructorIdList();
+            logger.info("List now contains " + Constants.CONSTRUCTORIDS.size() + " constructors");
         }
         catch (Exception e) {
             logger.error(e.getMessage());
