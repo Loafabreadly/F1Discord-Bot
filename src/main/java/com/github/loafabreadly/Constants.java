@@ -1,8 +1,7 @@
 package com.github.loafabreadly;
 
 import java.awt.Color;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Constants {
@@ -42,5 +41,5 @@ public final class Constants {
      */
     public static final String BOTICON = "https://i.imgur.com/BtcVPHP.png";
 
-    public static List<String> constructorIds;
+    public static final List<String> CONSTRUCTORIDS = new ArrayList<>();
 }

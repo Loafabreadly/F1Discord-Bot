@@ -1,7 +1,7 @@
 package com.github.loafabreadly;
 
-import com.github.loafabreadly.Command.*;
-import com.github.loafabreadly.Util.ErgastAPI;
+import com.github.loafabreadly.command.*;
+import com.github.loafabreadly.util.ErgastAPI;
 import me.koply.kcommando.KCommando;
 import me.koply.kcommando.integration.impl.javacord.JavacordIntegration;
 import org.apache.logging.log4j.LogManager;
@@ -9,9 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
-import org.javacord.api.interaction.SlashCommand;
-
-import java.util.Set;
 
 public class Main {
 
@@ -42,15 +39,6 @@ public class Main {
                 api.updateActivity("v." + Constants.VERSION);
             }
 
-            /*
-            logger.info("Clearing past Global Slash Commands");
-            Set<SlashCommand> globalCommands = api.getGlobalSlashCommands().get();
-            for (SlashCommand cmd: globalCommands) {
-                logger.debug("Cleared out " + cmd.getName());
-                cmd.delete().join();
-            }
-
-            */
             JavacordIntegration jci = new JavacordIntegration(api);
             KCommando kc = new KCommando(jci)
                     .addPackage(Command.class.getPackageName())
@@ -70,7 +58,7 @@ public class Main {
 
             logger.info("Populating the Constructor ID List");
             ErgastAPI.populateConstructorIdList();
-            logger.info("List now contains " + Constants.constructorIds.size() + " constructors");
+            logger.info("List now contains " + Constants.CONSTRUCTORIDS.size() + " constructors");
         }
         catch (Exception e) {
             logger.error(e.getMessage());
