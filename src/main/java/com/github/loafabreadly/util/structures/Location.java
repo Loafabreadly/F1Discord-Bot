@@ -1,4 +1,4 @@
-package com.github.loafabreadly.Util.Structures;
+package com.github.loafabreadly.util.structures;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

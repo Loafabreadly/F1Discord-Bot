@@ -1,6 +1,8 @@
 package com.github.loafabreadly;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Constants {
 
@@ -22,7 +24,7 @@ public final class Constants {
     /*
     The F1 Race Data API Endpoint URL
      */
-    public static final String ERGASTAPIURL = "https://ergast.com/api/f1/";
+    public static final String ERGASTAPIURL = "http://ergast.com/api/f1/";
 
     /*
     The Bot's nickname
@@ -34,5 +36,10 @@ public final class Constants {
      */
     public static final String VERSION = "indev";
 
+    /*
+    The img to use in embeds for the bot
+     */
     public static final String BOTICON = "https://i.imgur.com/BtcVPHP.png";
+
+    public static final List<String> CONSTRUCTORIDS = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package com.github.loafabreadly.Command;
+package com.github.loafabreadly.command;
 
 import me.koply.kcommando.internal.annotations.HandleSlash;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
