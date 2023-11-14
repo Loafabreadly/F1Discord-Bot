@@ -10,6 +10,9 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
 
+import java.awt.color.ICC_ColorSpace;
+import java.util.Objects;
+
 public class Main {
 
     private static final Logger logger = LogManager.getLogger(Main.class);
@@ -21,12 +24,14 @@ public class Main {
     public static void main(String[] args) {
         System.setProperty("log4j.configurationFile", "/src/main/resources/log4j2.xml");
         logger.info("Starting Bot...\n");
-        logger.trace("logging in with: " + args[0] + "\n");
+        logger.info("Attempting to find the Discord Token");
+        String token = getToken();
+        logger.trace("logging in with: " + token + "\n");
 
         //Login
         try {
             DiscordApi api = new DiscordApiBuilder()
-                    .setToken(args[0])
+                    .setToken(token)
                     .addIntents(Intent.MESSAGE_CONTENT)
                     .addIntents(Intent.GUILDS)
                     .login().join();
@@ -65,4 +70,9 @@ public class Main {
         }
     }
 
+    private static String getToken() {
+        String token = System.getenv("DISCORD_TOKEN");
+            logger.info("Env var was defined for token!");
+            return Objects.requireNonNull(token);
+        }
 }
