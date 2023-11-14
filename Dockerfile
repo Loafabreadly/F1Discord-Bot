@@ -5,7 +5,7 @@ ENV JAR_NAME=F1Discord-Bot-all.jar
 ENV HOME_DIR=/app
 
 # Setup
-COPY $JAR_NAME $HOME_DIR
+COPY /home/runner/work/F1Discord-Bot/F1Discord-Bot/$JAR_NAME $HOME_DIR
 WORKDIR $HOME_DIR
 
 # Launch with args
