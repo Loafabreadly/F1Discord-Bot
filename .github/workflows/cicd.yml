@@ -23,7 +23,7 @@ jobs:
           arguments: build
 
       - name: Move Jar file
-        run: mv build/libs/F1Discord-Bot-all.jar $GITHUB_WORKSPACE/F1Discord-bot-all.jar
+        run: mv build/libs/F1Discord-Bot-all.jar $GITHUB_WORKSPACE/F1Discord-Bot-all.jar
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
