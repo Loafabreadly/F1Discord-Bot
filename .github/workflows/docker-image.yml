@@ -20,6 +20,12 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
+      - name: Make Gradle executable
+        run: chmod +x gradlew
+      - name: List files and permissions
+        run: |
+          ls -l
+          ls -l ./gradlew
       - name: Gradle build
         run: ./gradlew build
 
