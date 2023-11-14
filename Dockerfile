@@ -5,8 +5,8 @@ ENV JAR_NAME=F1Discord-Bot-all.jar
 ENV HOME_DIR=/app
 
 # Setup
-WORKDIR $HOME_DIR
 COPY $JAR_NAME $HOME_DIR
+WORKDIR $HOME_DIR
 
 # Launch with args
 ENTRYPOINT java -jar ${HOME_DIR}/${JAR_NAME}
