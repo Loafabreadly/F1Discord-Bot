@@ -60,10 +60,14 @@ public class Main {
             kc.registerObject(new RaceCmd());
             kc.registerObject(new StandingsCmd());
             kc.registerObject(new ConstructorCmd());
+            kc.registerObject(new CircuitCmd());
 
             logger.info("Populating the Constructor ID List");
             ErgastAPI.populateConstructorIdList();
             logger.info("List now contains " + Constants.CONSTRUCTORIDS.size() + " constructors");
+            logger.info("Populating the Circuit ID List");
+            ErgastAPI.populateCircuitIdList();
+            logger.info("List now contains " + Constants.CIRCUITIDS.size() + " circuits");
         }
         catch (Exception e) {
             logger.error(e.getMessage());

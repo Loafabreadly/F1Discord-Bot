@@ -22,4 +22,7 @@ public class MRData {
 
     @JsonProperty("ConstructorTable")
     private ConstructorTable constructorTable;
+
+    @JsonProperty("CircuitTable")
+    private CircuitTable circuitTable;
 }

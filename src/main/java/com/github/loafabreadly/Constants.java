@@ -42,4 +42,6 @@ public final class Constants {
     public static final String BOTICON = "https://i.imgur.com/BtcVPHP.png";
 
     public static final List<String> CONSTRUCTORIDS = new ArrayList<>();
+
+    public static final List<String> CIRCUITIDS = new ArrayList<>();
 }

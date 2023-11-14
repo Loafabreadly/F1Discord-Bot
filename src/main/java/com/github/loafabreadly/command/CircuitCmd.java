@@ -16,30 +16,30 @@ import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 
 import java.util.List;
 
-public class ConstructorCmd implements Command {
+public class CircuitCmd implements Command {
     private final @NonNull Logger logger = LogManager.getLogger(Main.class.getName());
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    @HandleSlash(name = "constructors",
-    desc = "Provide info on F1 Constructors",
+    @HandleSlash(name = "circuit",
+    desc = "Provide info on F1 Circuits",
     global = true,
-    options = @Option(type = OptionType.STRING, name = "team", desc = "The F1 Team(ex red_bull)", required = true))
+    options = @Option(type = OptionType.STRING, name = "circuit", desc = "The F1 Circuit ('baku')", required = true))
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         e.respondLater();
         InteractionFollowupMessageBuilder response = e.createFollowupMessageBuilder();
 
         try {
-            @NonNull String team = e.getArgumentStringValueByName("team").orElseThrow().toLowerCase();
-            if (Constants.CONSTRUCTORIDS.contains(team)) {
-                @NonNull List<Races> constructorResults = ErgastAPI.getConstructorData(team);
+            @NonNull String circuit = e.getArgumentStringValueByName("circuit").orElseThrow().toLowerCase();
+            if (Constants.CIRCUITIDS.contains(circuit)) {
+                @NonNull List<Races> circuitResults = ErgastAPI.getCircuitData(circuit);
 
                 response.addEmbed(new F1EmbedBuilder()
-                                .setTitle(constructorResults.get(0).getDriverResults().get(0).getConstructor().getName())
-                                .addField("First Race", constructorResults.get(0).getRaceName() + " - " + constructorResults.get(0).getDate())
-                                .addField("Total points earned", ErgastHandler.getConstructorTotalPoints(constructorResults) + " points across " + constructorResults.size() + " races")
-                                .addField("Most Recent Race", constructorResults.get(constructorResults.size() - 1).getRaceName() + " - " + constructorResults.get(constructorResults.size() - 1).getDate()))
+                                .setTitle(circuitResults.get(0).getCircuit().getCircuitName())
+                                .addField("First Race", circuitResults.get(0).getRaceName() + " - " + circuitResults.get(0).getDate())
+                                .addField("Total races ran", String.valueOf(circuitResults.size()))
+                                .addField("Most Recent Race", circuitResults.get(circuitResults.size() - 1).getRaceName() + " - " + circuitResults.get(circuitResults.size() - 1).getDate()))
                         .send().join();
             } else {
                 throw new NoSuchTeamException();
