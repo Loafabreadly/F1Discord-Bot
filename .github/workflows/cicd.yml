@@ -1,4 +1,4 @@
-name: Docker Push
+name: Gradle Build/Docker Push
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
           java-version: '17'
 
       - name: Gradle Build
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.4.2
         with:
           gradle-version: current
           arguments: build
@@ -36,12 +36,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: List Location
-        run: ls -lah
-
-      - name: Print Working Dir
-        run: pwd
 
       - name: Build and push
         uses: docker/build-push-action@v5
