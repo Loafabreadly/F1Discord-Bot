@@ -22,15 +22,6 @@ jobs:
           gradle-version: current
           arguments: build
 
-      - name: List Dirs
-        run: ls -lahR
-
-      - name: Upload Fat Jar
-        uses: actions/upload-artifact@v3
-        with:
-          name: F1Discord-Bot-all.jar
-          path: build/libs/
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 

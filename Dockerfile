@@ -6,7 +6,7 @@ ENV HOME_DIR=/app
 
 # Setup
 WORKDIR $HOME_DIR
-COPY /build/libs/$JAR_NAME $HOME_DIR
+COPY ./build/libs/$JAR_NAME $HOME_DIR
 
 # Launch with args
 ENTRYPOINT java -jar ${HOME_DIR}/${JAR_NAME}
