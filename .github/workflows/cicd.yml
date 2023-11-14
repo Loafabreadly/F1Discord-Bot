@@ -25,18 +25,6 @@ jobs:
       - name: Move Jar file
         run: mv build/libs/F1Discord-Bot-all.jar F1Discord-bot-all.jar
 
-      - name: Upload Fat Jar
-        uses: actions/upload-artifact@v3
-        with:
-          name: jar-file
-          path: F1Discord-bot-all.jar
-
-      - name: Download Fat Jar Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: jar-file
-          path: F1Discord-bot-all.jar
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
