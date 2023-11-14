@@ -34,7 +34,7 @@ public final class Constants {
     /*
     Used to set bot status if a git commit is not provided
      */
-    public static final String VERSION = "indev";
+    public static final String VERSION = "Beta";
 
     /*
     The img to use in embeds for the bot
