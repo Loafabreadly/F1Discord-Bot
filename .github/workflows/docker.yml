@@ -1,4 +1,4 @@
-name: Gradle Build/Docker Push
+name: Docker Push
 
 on:
   push:
@@ -8,29 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'corretto'
-          java-version: '17'
-
-      - name: Gradle Build
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: current
-          arguments: build
-      - name: Save Jar
-        uses: actions/upload-artifact@v3
-        with:
-          name: F1Discord-bot-all.jar
-          path: /build/libs
-
-      - name: DL Jar
+      - name: Download Fat Jar Artifact
         uses: actions/download-artifact@v3
         with:
-          name: F1Discord-bot-all.jar
+          name: jar-file
+          path: F1Discord-bot-all.jar
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
