@@ -21,9 +21,9 @@ jobs:
         with:
           gradle-version: current
           arguments: build
-          
+
       - name: Upload Fat Jar
-        uses: actions/upload-artifacts@v3
+        uses: actions/upload-artifact@v3
         with:
           name: F1Discord-Bot-all.jar
           path: build/libs/
