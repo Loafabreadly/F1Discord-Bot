@@ -9,5 +9,5 @@ import java.util.List;
 public class CircuitTable {
 
     @JsonProperty("Circuits")
-    private List<Circuit> circuitsList;
+    private List<Circuit> circuits;
 }
