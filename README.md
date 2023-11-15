@@ -1,10 +1,13 @@
 # F1 Discord Bot "Kravitz's Notebook"
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/loafabreadly/F1Discord-Bot/cicd.yml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Loafabreadly/F1Discord-Bot?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/Loafabreadly/F1Discord-Bot)
 ![Discord](https://img.shields.io/discord/920009218801668156)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/Loafabreadly/F1Discord-Bot)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Loafabreadly/F1Discord-Bot)
 ![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/loafabreadly/f1discord-bot/latest)
+![Docker Pulls](https://img.shields.io/docker/pulls/loafabreadly/f1discord-bot)
+
 
 <img src="https://imgur.com/BtcVPHP.png" width=25% height=25%>
 
@@ -21,7 +24,24 @@ This F1 Discord Bot, "Kravitz's Notebook", is a powerful tool designed to integr
 - **Circuit Results**: Group the F1 Race outcomes by Circuit.
 - **Red Button**: If you know F1, you know that the Sky-Q Sky Glass Customer RED BUTTON is very important to crofty.
 
-### CI/CD Build Pipeline using Github Actions
+## Prerequisites to run
+Before you begin, ensure you have Docker and Docker Compose installed on your machine.
+
+- [Docker Installation Guide](https://docs.docker.com/get-docker/)
+- [Docker Compose Installation Guide](https://docs.docker.com/compose/install/)
+
+### Docker Image
+You can pull the latest version of our Docker image from Docker Hub using the following command:
+
+```bash
+docker pull loafabreadly/f1discord-bot:latest
+```
+
+```bash
+docker run -d --name [Enter Container Name] -e DISCORD_TOKEN=[Discord Bot API Token] loafabreadly/f1discord-bot:latest
+```
+
+## CI/CD Build Pipeline using Github Actions ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/loafabreadly/F1Discord-Bot/cicd.yml)
 - Download the Code Base
 - Setup Gradle prereq, ensure Java is present
 - Perform `gradle build`
@@ -51,7 +71,7 @@ To contribute to the development of the F1 Discord Bot, follow these steps:
 4. Run the Docker container locally for testing:
 
     ```bash
-    docker run -e DISCORD_TOKEN=your_test_discord_token loafabreadly/f1discord-bot:latest
+    docker run -d --name [Enter Container Name] -e DISCORD_TOKEN=[Discord Bot API Token] loafabreadly/f1discord-bot:latest
     ```
 	
 5. Create a Pull Request against the "stg" branch and I will review!

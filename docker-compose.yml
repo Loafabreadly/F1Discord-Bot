@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  f1discord-bot:
+    image: loafabreadly/f1discord-bot:latest
+    environment:
+      - DISCORD_TOKEN=[DISCORD BOT TOKEN]
+    restart: always
