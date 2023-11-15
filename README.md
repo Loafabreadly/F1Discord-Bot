@@ -4,6 +4,7 @@
 ![Discord](https://img.shields.io/discord/920009218801668156)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/Loafabreadly/F1Discord-Bot)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Loafabreadly/F1Discord-Bot)
+![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/loafabreadly/f1discord-bot/latest)
 
 <img src="https://imgur.com/BtcVPHP.png" width=25% height=25%>
 
