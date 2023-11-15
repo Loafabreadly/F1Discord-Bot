@@ -19,7 +19,7 @@ public class Main {
 
     /**
      * The Bot Entrypoint
-     * @param args Requires 1, with an option to supply a second arg to set the bot status code
+     * @param args option 1, will set the bot status to match the git commit. Default is internal version of CONSTANTS.VERSION
      */
     public static void main(String[] args) {
         System.setProperty("log4j.configurationFile", "/src/main/resources/log4j2.xml");
@@ -36,9 +36,9 @@ public class Main {
                     .addIntents(Intent.GUILDS)
                     .login().join();
 
-            if (args.length == 2) {
-                logger.info("Setting bot status to match Git Commit of " + args[1]);
-                api.updateActivity("v." + args[1]);
+            if (args.length == 1) {
+                logger.info("Setting bot status to match Git Commit of " + args[0]);
+                api.updateActivity("v." + args[0]);
             } else {
                 logger.info("Setting bot status to match internal version of " + Constants.VERSION);
                 api.updateActivity("v." + Constants.VERSION);
@@ -50,20 +50,41 @@ public class Main {
                     .setReadBotMessages(false)
                     .setPrefix("/")
                     .setOwners(Constants.OWNER_ID)
-                    .setVerbose(true)
-                    .build();
+                    .setVerbose(false);
+                    //.build();
+
 
             logger.info("Registering our Slash Commands");
+            logger.info("This can take a while depending on the amount to register");
             kc.registerObject(new PingCmd());
+            logger.debug("Registered PingCmd");
             kc.registerObject(new RedButtonCmd());
+            logger.debug("Registered RedButtonCmd");
             kc.registerObject(new NicoCmd());
+            logger.debug("Registered NicoCmd");
             kc.registerObject(new RaceCmd());
+            logger.debug("Registered RaceCmd");
             kc.registerObject(new StandingsCmd());
+            logger.debug("Registered StandingCmd");
             kc.registerObject(new ConstructorCmd());
+            logger.debug("Registered ConstructorCmd");
+            kc.registerObject(new CircuitCmd());
+            logger.debug("Registered CircuitCmd");
+            kc.registerObject(new ListCircuitsCmd());
+            logger.debug("Registered ListCircuitsCmd");
+            kc.registerObject(new ListConstructorsCmd());
+            logger.debug("Registered ListConstructorsCmd");
+
+            kc.build();
 
             logger.info("Populating the Constructor ID List");
             ErgastAPI.populateConstructorIdList();
             logger.info("List now contains " + Constants.CONSTRUCTORIDS.size() + " constructors");
+            logger.info("Populating the Circuit ID List");
+            ErgastAPI.populateCircuitIdList();
+            logger.info("List now contains " + Constants.CIRCUITIDS.size() + " circuits");
+
+            logger.info("Bot is now ready to receive commands");
         }
         catch (Exception e) {
             logger.error(e.getMessage());
