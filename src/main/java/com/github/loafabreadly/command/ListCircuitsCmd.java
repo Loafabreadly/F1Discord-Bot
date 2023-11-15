@@ -19,7 +19,7 @@ public class ListCircuitsCmd implements Command {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         StringBuilder circuitList = new StringBuilder();
         for (String circuitid : Constants.CIRCUITIDS) {
-            circuitList.append(circuitid).append(",");
+            circuitList.append(circuitid).append(",").append(" ");
         }
         e.createImmediateResponder()
                 .append("The below Circuit IDs are valid inputs for use with /circuit")

@@ -13,8 +13,8 @@ public class ListConstructorsCmd implements Command {
     public void run(SlashCommandCreateEvent event) {
         SlashCommandInteraction e = event.getSlashCommandInteraction();
         StringBuilder constructorList = new StringBuilder();
-        for (String cList : Constants.CIRCUITIDS) {
-            constructorList.append(cList).append(",");
+        for (String cList : Constants.CONSTRUCTORIDS) {
+            constructorList.append(cList).append(",").append(" ");
         }
         e.createImmediateResponder()
                 .append("The below Constructor IDs are valid inputs for use with /constructor")
