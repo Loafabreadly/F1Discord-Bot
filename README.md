@@ -57,10 +57,10 @@ To contribute to the development of the F1 Discord Bot, follow these steps:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your_username/f1discord-bot.git
+    git clone https://github.com/loafabreadly/f1discord-bot.git
     ```
 
-2. Make changes and improvements.
+2. Make changes and improvements as you see fit!. There may be an issue out there I need help with, you may have a neat idea for a new feature.
 
 3. Build the Docker image:
 
