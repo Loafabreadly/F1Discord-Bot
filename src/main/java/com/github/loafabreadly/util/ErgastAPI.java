@@ -50,6 +50,9 @@ public class ErgastAPI {
         }
     }
 
+    /**
+     * Populates the Constructor ID List
+     */
     public static void populateConstructorIdList() {
         String url = Constants.ERGASTAPIURL + "/constructors.json?limit=250";
         ErgastObjectMapper om = new ErgastObjectMapper();
@@ -65,18 +68,33 @@ public class ErgastAPI {
         }
     }
 
+    /**
+     * Populates the Circuit ID List
+     */
     public static void populateCircuitIdList() {
-        String url = Constants.ERGASTAPIURL + "/circuits.json";
-        ErgastObjectMapper om = new ErgastObjectMapper();
-        try {
-            ErgastJsonReply reply = om.readValue(makeCall(url), ErgastJsonReply.class);
-            for (Circuit c: reply.getMrData().getCircuitTable().getCircuitsList()) {
-                Constants.CIRCUITIDS.add(c.getCircuitId());
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            e.printStackTrace();
+        String url = Constants.ERGASTAPIURL + "/circuits.json?limit=250";
+        int offset = 0;
+        boolean hasNextPage = true;
+        while (hasNextPage) {
+            try {
+                ErgastObjectMapper om = new ErgastObjectMapper();
+                ErgastJsonReply root = om.readValue(makeCall(url + "&offset=" + offset), ErgastJsonReply.class);
+                for (Circuit c: root.getMrData().getCircuitTable().getCircuitsList()) {
+                    Constants.CIRCUITIDS.add(c.getCircuitId());
+                }
+                List<Races> results = root.getMrData().getRaceTable().getRaces();
+                int total = root.getMrData().getTotal();
+                int limit = root.getMrData().getLimit();
+                int count = results.size();
 
+                if (offset + count >= total) {
+                    hasNextPage = false;
+                } else {
+                    offset += limit;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -87,6 +105,7 @@ public class ErgastAPI {
      */
     public static List<Races> getConstructorData(String constructor) {
         String url = Constants.ERGASTAPIURL + "constructors/" + constructor + "/results.json?limit=250";
+        logger.trace(url);
         List<Races> allResults = new ArrayList<>();
         int offset = 0;
         boolean hasNextPage = true;
@@ -123,6 +142,7 @@ public class ErgastAPI {
      */
     public static List<Races> getCircuitData(String circuit) {
         String url = Constants.ERGASTAPIURL + "circuits/" + circuit + "/results.json?limit=250";
+        logger.trace(url);
         List<Races> allResults = new ArrayList<>();
         int offset = 0;
         boolean hasNextPage = true;
@@ -131,7 +151,7 @@ public class ErgastAPI {
                 ErgastObjectMapper om = new ErgastObjectMapper();
                 ErgastJsonReply root = om.readValue(makeCall(url + "&offset=" + offset), ErgastJsonReply.class);
                 List<Races> results = root.getMrData().getRaceTable().getRaces();
-                logger.info("Just retrieved " + results.size() + " races");
+                logger.info("Just retrieved " + results.size() + " races from" + circuit);
                 allResults.addAll(results);
                 logger.info("Total race count at " + allResults.size());
 

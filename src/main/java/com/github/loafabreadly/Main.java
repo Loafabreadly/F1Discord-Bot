@@ -50,17 +50,25 @@ public class Main {
                     .setReadBotMessages(false)
                     .setPrefix("/")
                     .setOwners(Constants.OWNER_ID)
-                    .setVerbose(true)
+                    .setVerbose(false)
                     .build();
 
             logger.info("Registering our Slash Commands");
+            logger.info("This can take a while depending on the amount to register");
             kc.registerObject(new PingCmd());
+            logger.trace("Registered PingCmd");
             kc.registerObject(new RedButtonCmd());
+            logger.trace("Registered RedButtonCmd");
             kc.registerObject(new NicoCmd());
+            logger.trace("Registered NicoCmd");
             kc.registerObject(new RaceCmd());
+            logger.trace("Registered RaceCmd");
             kc.registerObject(new StandingsCmd());
+            logger.trace("Registered StandingCmd");
             kc.registerObject(new ConstructorCmd());
+            logger.trace("Registered ConstructorCmd");
             kc.registerObject(new CircuitCmd());
+            logger.trace("Registered CircuitCmd");
 
             logger.info("Populating the Constructor ID List");
             ErgastAPI.populateConstructorIdList();
@@ -68,6 +76,8 @@ public class Main {
             logger.info("Populating the Circuit ID List");
             ErgastAPI.populateCircuitIdList();
             logger.info("List now contains " + Constants.CIRCUITIDS.size() + " circuits");
+
+            logger.info("Bot is now ready to receive commands");
         }
         catch (Exception e) {
             logger.error(e.getMessage());

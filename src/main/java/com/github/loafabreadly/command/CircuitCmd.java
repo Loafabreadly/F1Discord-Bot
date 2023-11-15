@@ -42,7 +42,7 @@ public class CircuitCmd implements Command {
                                 .addField("Most Recent Race", circuitResults.get(circuitResults.size() - 1).getRaceName() + " - " + circuitResults.get(circuitResults.size() - 1).getDate()))
                         .send().join();
             } else {
-                throw new NoSuchTeamException();
+                throw new NoSuchCircuitException();
             }
         } catch (Exception ex) {
             logger.error(ex.toString());
